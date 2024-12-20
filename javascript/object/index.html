@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object</title>
+</head>
+<body>
+    
+
+    <script>
+
+        var userInfo = {
+            email : 'sandeep@gmail.com',
+            name : 'Sandeep bhati',
+            mobile_number : 1234567890
+        }
+
+
+        var userInfos = [
+            {
+                email : 'sandeep@gmail.com',
+                name : 'Sandeep bhati',
+                mobile_number : 1234567890
+            },
+            {
+                name : 'Ravi bhati',
+                email : 'ravi@gmail.com',
+                mobile_number : 1234567890
+            }
+        ]
+
+
+        // console.log(userInfos[0].name);
+
+        userInfos.forEach((value,index) => {
+            // console.log(value.name);
+            // console.log(value.email);
+
+
+            console.log(userInfos[index].name);
+        });
+
+
+    </script>
+</body>
+</html>

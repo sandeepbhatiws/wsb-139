@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Sheet</title>
+</head>
+<body>
+    <script>
+        var english = prompt('Enter the marks of english');
+        var hindi = prompt('Enter the marks of hindi');
+        var maths = prompt('Enter the marks of maths');
+
+        var sum = parseInt(english) + parseInt(hindi) + parseInt(maths);
+        percentage = (sum/300)*100;
+
+        if(english > 100 || hindi > 100 || maths > 100){
+            document.write("<center><h1>Invalid Marks</h1></center>");
+        } else if(english < 36 || hindi < 36 || maths < 36){
+            document.write("<center><h1>Failed</h1></center>");
+        }
+    </script>
+</body>
+</html>

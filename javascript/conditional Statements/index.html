@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional Statements</title>
+</head>
+<body>
+    
+
+
+    <script>
+        var a = prompt('Enter your age');
+
+        // if(a >= 18){
+        //     document.write('<center><h1>Eligible for voting card.</h1></center>');
+        // }
+
+        // if(a >= 18){
+        //     document.write('<center><h1>Eligible for voting card.</h1></center>');
+        // } else {
+        //     document.write("<center><h1>Does't Eligible for voting card.</h1></center>");
+        // }
+
+
+        if(a <= 18){
+            document.write("<center><h1>Does't Eligible for voting card.</h1></center>");
+        } else if(a >= 18 && a <=60){
+            document.write('<center><h1>Eligible for voting card.</h1></center>');
+        }  else {
+            document.write("<center><h1>Does't Eligible for voting card.</h1></center>");
+        }  
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+}
+
+.outer{
+	width: 100%;
+}
+.row{
+	max-width: 1320px;
+	margin: auto;
+}
+.heading{
+	text-align: center;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 34px;
+}
+.products{
+	display: flex;
+	flex-wrap: wrap;
+}
+.column img{
+	width: 100%;
+	height: 100%;
+}
+.column{
+	flex-basis: 23%;
+	margin: 1%;
+}

@@ -1,0 +1,46 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+}
+body{
+	background: #F5F5F5;
+/*	background-image: url('../images/virtual-classroom-icon.svg');*/
+}
+.clear{
+	clear: both;
+}
+.outer-section{
+	width: 1200px;
+	border: 0px solid red;
+	margin: auto;
+}
+.heading{
+	text-align: center;
+	padding: 20px 15px;
+	width: 100%;
+	border: 0px solid red;
+	box-sizing: border-box;
+}
+.box-outer{
+	width: 100%;
+}
+.box{
+	width: 350px;
+	margin: 25px;
+	padding: 15px;
+	box-sizing: border-box;
+	background-color: white;
+	border-radius: 10px;
+	text-align: center;
+	float: left;
+}
+.image{
+	width: 70px;
+}
+.box-content h2{
+	padding-bottom: 10px;
+}
+.box-content p{
+	line-height: 28px;
+}

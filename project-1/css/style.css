@@ -1,0 +1,186 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+}
+body{
+	font-family: arial;
+	background-color: black;
+}
+a{
+	color: white;
+}
+.main{
+	width: 1170px;
+	border: 0px solid red;
+	margin: auto;
+}
+.row-header{
+	background-color: #343130;
+	padding: 10px 15px;
+	box-sizing: border-box;
+	font-size: 22px;
+}
+.header_left{
+	float: left;
+}
+.header_right{
+	float: right;
+}
+.clear{
+	clear: both;
+}
+.header_left_icons{
+	float: left;
+	margin: 0px 10px;
+	margin-top: 3px;
+}
+.header_left_content{
+	float: left;
+}
+.header_right_icons{
+	float: left;
+	margin: 0px 10px;
+	margin-top: 5px;
+}
+.header_right_content{
+	float: left;
+}
+.outer-menu{
+	background-color: white;
+	padding: 5px 40px;
+}
+.logo{
+	float: left;
+}
+.menu{
+	float: right;
+	padding-top: 90px;
+	font-weight: bold;
+}
+.menu_heading{
+	float: left;
+	padding-left: 65px;
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+.menu_heading a{
+	color: black;
+	padding-bottom: 5px;
+}
+.logo img{
+	width: 165px;
+}
+.active{
+	color: #00a8ec !important;
+}
+.menu_heading:hover a{
+	color: #00a8ec;
+	text-decoration: underline;
+}
+.outer_courses{
+	width: 100%;
+	background-color: #F1F0EF;
+	padding: 15px;
+	box-sizing: border-box;
+}
+
+.course_left{
+	border: 0px solid red;
+/*	height: 300px;*/
+	width: 270px;
+	float: left;
+/*	padding: 5px 15px;*/
+	padding-left: 15px;
+	background-color: white;
+	box-sizing: border-box;
+}
+.course_right{
+	width: 870px;
+/*	height: 300px;*/
+	border: 0px solid red;
+	float: right;
+	background-color: white;
+	padding: 0px 15px;
+	box-sizing: border-box;
+}
+.course_banner_image{
+	width: 100%;
+}
+.course_left_outer{
+	background-color: white;
+	padding-top: 5px;
+}
+.course_left_menu{
+	background-color: #00a8ec;
+	color: white;
+	text-align: center;
+	margin-bottom: 7px;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 10px;
+}
+.news_heading{
+	background-color: #ef9c00;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.news_outer{
+	margin-top: 10px;
+}
+.news_content{
+	border: 1px solid #908c89;
+}
+.news_content ul{
+	list-style: none;
+}
+.news_content ul li img{
+	border-radius: 50%;
+}
+.course_heading{
+	background-color: #F1F0EF;
+	font-size: 24px;
+	padding: 10px 15px;
+	width: 150px;
+}
+.course_outer{
+	border: 1px solid red;
+}
+.course_image{
+	background-color: #E6611C;
+	float: left;
+	border-radius: 50%;
+	padding: 5px;
+}
+.courses{
+	float: left;
+	width: 50%;
+	padding: 15px;
+	box-sizing: border-box;
+}
+.course_content{
+	float: left;
+	padding: 10px 15px;
+}
+.howitworks_outer{
+	background-color: white;
+	padding: 15px;
+}
+.howitworks{
+	float: left;
+	background-image: url('../images/how/HOW-WE-WORK1.png');
+	width: 23%;
+	margin: 1%;
+	height: 250px;
+	background-color: #C96D8A;
+	background-repeat: no-repeat;
+	color: white;
+	background-position: bottom center;
+	padding: 60px;
+	padding-top: 100px;
+	text-align: center;
+	box-sizing: border-box;
+}

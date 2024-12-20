@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Swipe</title>
+    <style>
+        .row{
+           width: 1200px;
+           margin: auto;
+           display: flex; 
+           flex-wrap: wrap;
+           justify-content: center;
+        }
+        .content{
+            flex-basis: 45%;
+            margin: 1%;
+            
+            
+        }
+        .content input {
+            width: 80%;
+            padding: 15px;
+            border: 1px solid gray;
+            border-radius: 15px;
+        }
+        button{
+            padding: 15px;
+            border: 0px;
+            background-color: black;
+            color: white;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="content" id="content1">
+            <input type="password" id="password">
+        </div>
+        <button onclick="showPassword()" id="button">
+            Show Password
+        </button>
+    </div>
+
+    <script>
+
+        function showPassword(){
+            var text = document.getElementById('button').innerText;
+
+
+            if(text == 'Show Password'){
+                document.getElementById('button').innerText = 'Hide Password';
+                document.getElementById('password').type = 'text';
+            } else {
+                document.getElementById('button').innerText = 'Show Password';
+                document.getElementById('password').type = 'password';
+            }
+        }
+        
+    </script>
+</body>
+</html>

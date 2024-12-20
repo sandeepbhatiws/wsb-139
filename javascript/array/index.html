@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array</title>
+</head>
+<body>
+    
+
+    <script>
+        // var data = [];  // blank Array
+
+        var data = ['rahul', 'rahul@gmail.com', 1234567890];
+
+        // console.log(data[0]);
+
+        // console.log(data);
+
+        // data[3]  = 'Web';
+
+        // console.log(data);
+
+        // data[7]  = 'Website';
+
+        // console.log(data);
+
+
+        data.push('Website', 'HTMl', 'HTML5');
+
+        // console.log(data);
+        // console.log(data.push('Website', 'HTMl', 'HTML5'));
+
+        data.pop();
+
+        // console.log(data);
+        // console.log(data.pop());
+
+        // console.log(data);
+
+        // for(var i = 0;  i<data.length; i++){
+        //     document.write(data[i]+'<br>');
+        // }
+
+        // for (const value of data) {
+        //     console.log(value);
+        //     document.write(value+'<br>');
+        // }
+
+        for (const index in data) {
+            console.log(index);
+            document.write(data[index]+'<br>');
+        }
+
+
+
+    </script>
+</body>
+</html>

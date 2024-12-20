@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Truck Animation</title>
+	<style type="text/css">
+		@keyframes truck{
+			0%{
+				left: -300px;
+			}
+			100%{
+				left: 100%;
+			}
+		}
+
+		.truck{
+			position: fixed;
+			bottom: -10px;
+			left:-120px;
+			animation: truck 10s 0s infinite linear;
+		}
+		.wheels{
+			display: flex;
+			justify-content: center;
+		}
+		.w-in{
+			width: 20px;
+			height: 20px;
+			background-color: blue;
+			border-radius: 50%;
+			margin-right: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			top: -10px;
+			position: relative;
+			/*border-radius: */
+		}
+		.white-dots{
+			width: 10px;
+			height: 10px;
+			background-color: white;
+			border-radius: 50%;
+			border:0px solid red;
+		}
+	</style>
+</head>
+<body>
+	<div class="truck">
+		<img src="truck-1.png">
+		<div class="wheels">
+			<div class="w-in">
+				<div class="white-dots"></div>
+			</div>
+			<div class="w-in">
+				<div class="white-dots"></div>
+			</div>
+		</div>
+	</div>	
+</body>
+</html>

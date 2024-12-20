@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+</head>
+<body>
+    <div class="row" id="row">
+        1. <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+    <div class="row" id="row">
+        2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+    <div class="row" id="row">
+        3. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+
+    <div id="output"></div>
+
+
+    <input type="text" value="1234567890" id="input"/>
+    <input type="text" value="" id="input1"/>
+
+    <script>
+        document.getElementById('row').innerText;
+
+        // // Using ID
+        // var a = document.getElementById('row').innerText;
+        // var b = document.getElementById('row').innerHTML;
+
+        // document.getElementById('output').innerHTML = b;
+
+        // Using Class Name
+        var a = document.getElementsByClassName('row');
+        var a = a[1].innerHTML;
+        document.getElementById('output').innerHTML = a;
+        // console.log(a[1]);
+
+
+        // Using Tag Name
+        var input = document.getElementsByTagName('div');
+        var a = input[0].innerHTML;
+        var b = input[1].innerHTML;
+        var c = input[2].innerHTML;
+        document.getElementById('output').innerHTML = a+b+c;
+        console.log(a);
+
+
+        var input = document.getElementById('input').value;
+    
+        document.getElementById('input1').value = input;
+    </script>
+</body>
+</html>

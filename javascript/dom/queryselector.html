@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+</head>
+<body>
+    <div class="row" id="row">
+        1. <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+    <div class="row" id="row">
+        2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+    <div class="row" id="row">
+        3. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+
+    <div id="output"></div>
+
+
+
+    <script>
+        // var output = document.querySelector('#row').innerText;
+
+        // var output = document.querySelector('.row3').innerText;
+
+        // var output = document.querySelector('div').innerText;
+
+
+        // var output = document.querySelectorAll('#row');
+        // var output = document.querySelectorAll('.row');
+        var output = document.querySelectorAll('div');
+
+
+        output.forEach((value, index) => {
+            console.log(value.innerText);
+        })
+
+        // console.log(output[1].innerHTML);
+    </script>
+</body>
+</html>

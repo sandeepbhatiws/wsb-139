@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Properties</title>
+
+    <style>
+        .row{
+            padding: 15px;
+            border: 1px solid gray;
+            border-radius: 15px;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        .content{
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="changeColor(1)">Add Class</button>
+    <button onclick="changeColor(2)">Remove Class</button>
+    <button onclick="changeColor(3)">Toggle Class</button>
+
+    <div class="row" id="row">
+        1. <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing elit. Voluptatibus nesciunt explicabo harum ipsam odio praesentium blanditiis, quia laboriosam similique eos dignissimos! Provident id, quisquam magnam sed amet dicta quaerat vitae?
+    </div>
+
+    <script>
+
+        function changeColor(i){
+
+            var inputBox = document.getElementById('row');
+
+            if(i == 1){
+                inputBox.classList.add("content");
+            } else if(i == 2){
+                inputBox.classList.remove("content");
+            } else {
+                inputBox.classList.toggle("content");
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array</title>
+</head>
+<body>
+    
+
+    <script>
+        var numbers = [5,15,3,20,4,45,12];
+        var smallest = numbers[0];
+
+
+        for(var v in numbers){
+            if(numbers[v] < smallest){
+                smallest = numbers[v];
+            }
+        }
+
+        document.write(smallest);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loops</title>
+</head>
+<body>
+    
+    
+
+    <script>
+        var number = parseInt(prompt('Enter the value of number'));
+        var status = 1;
+
+        for(var i =2; i < number; i++){
+            if(number%i == 0){
+                status = 0;
+                break;
+            }
+        }
+
+        if(status == 1){
+            document.write('Prime Number');
+        } else {
+            document.write('Not a Prime Number');
+        }
+    </script>
+</body>
+</html>

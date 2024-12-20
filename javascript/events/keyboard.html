@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Events</title>
+</head>
+<body>
+        <!-- <input type="text" onkeydown="copyPaste()" id="input" /> -->
+        <!-- <input type="text" onkeyup="copyPaste()" id="input" /> -->
+        <!-- <input type="text" onfocus="copyPaste()" id="input" /> -->
+        <!-- <input type="text" onblur="copyPaste()" id="input" /> -->
+        <!-- <input type="text" onkeyup="copyPaste()" id="input" /> -->
+        <!-- <input type="text" onkeyup="copyPaste()" id="input" /> -->
+
+        
+
+
+        <select>
+            
+        </select>
+
+        <select>
+
+
+        </select>
+
+        <div id="output">
+
+        </div>
+
+
+        <script>
+            function copyPaste(){
+                var input = document.getElementById('input').value;
+
+                document.getElementById('output').innerText = input;
+                console.log(input);
+            }
+
+        </script>
+</body>
+</html>

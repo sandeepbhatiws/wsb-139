@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array</title>
+</head>
+<body>
+    <button onclick="largest()">Largest Value</button>
+    <button onclick="smallest()">Smallest Value</button>
+    <button onclick="reverse()">Reverse Value</button>
+    <button onclick="nonRepetedChracter()">Non Repeted Chracter Value</button>
+    <button onclick="letterCapitalize()">Letter Capitalize Value</button>
+
+    <script>
+
+        function largest(){
+            var numbers = [5,15,3,20,4,45,12];
+            var largest = numbers[0];
+
+            for(var v in numbers){
+                if(numbers[v] > largest){
+                    largest = numbers[v];
+                }
+            }
+
+            console.log(largest);
+        }
+
+        function smallest(){
+            var numbers = [5,15,3,20,4,45,12];
+            var smallest = numbers[0];
+
+            for(var v in numbers){
+                if(numbers[v] < smallest){
+                    smallest = numbers[v];
+                }
+            }
+
+            console.log(smallest);
+        } 
+
+        function reverse(){
+            var numbers = [5,15,3,20,4,45,12];
+            var newArray = numbers.reverse();
+            console.log(newArray);
+        }
+        
+        function nonRepetedChracter(){
+            var str =  'Hello Worldh';
+
+            var characterCount = {};
+
+            for(var data of str){
+                data = data.trim().toLowerCase();
+                if(data != ''){
+                    characterCount[data] = (characterCount[data] || 0) +1;
+                    // console.log(characterCount);
+                }
+            }
+
+            for(var data of str){
+                if(characterCount[data] == 1){
+                    console.log(data);
+                    break;
+                }
+            }
+
+        }
+   
+        function letterCapitalize(){
+            const indianNames = [ "arjun", "vinita", "ravi", "nisha", "ishan", "priya", "veer", "siddharth", "anika", "karan", "ayesha", "rahul"];
+
+            var newArray = indianNames.map((value) => {
+
+                return value[0].toUpperCase()+value.slice(1);
+                // console.log(value);
+            })
+
+            // console.log(newArray);
+
+
+            document.write(newArray);
+        } 
+   </script>
+</body>
+</html>

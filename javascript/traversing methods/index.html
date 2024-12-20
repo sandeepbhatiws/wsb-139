@@ -1,0 +1,42 @@
+<html lang="en" id="html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traversing Methods</title>
+</head>
+<body id="body">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae debitis repellat numquam consequatur quidem deleniti illo, aperiam eius, eaque sed odit, ullam eos minus magni. Perferendis quaerat commodi nobis asperiores.
+    <div id="row">
+        <div id="row1" class="row">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. <span>Vero nulla illum atque unde, modi blanditiis optio deserunt asperiores architecto fugit praesentium aut ab labore laudantium voluptatibus ut ipsa consectetur minus.</span>
+        </div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae debitis repellat numquam consequatur quidem deleniti illo, aperiam eius, eaque sed odit, ullam eos minus magni. Perferendis quaerat commodi nobis asperiores.</p>
+        <div id="row2">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae debitis repellat numquam consequatur quidem deleniti illo, aperiam eius, eaque sed odit, ullam eos minus magni. Perferendis quaerat commodi nobis asperiores.</span>
+        </div>
+        <div id="row3" class="row">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero nulla illum atque unde, modi blanditiis optio deserunt asperiores architecto fugit praesentium aut ab labore laudantium voluptatibus ut ipsa consectetur minus.
+        </div>
+    </div>
+
+
+    <script>
+        // var output = document.getElementById('html').parentNode;
+        // var output = document.getElementById('html').parentElement;
+
+        var output = document.getElementById('row').childNodes;
+        var output = document.getElementById('row').children;
+
+        var output = document.getElementById('row').firstElementChild;
+
+        var output = document.getElementById('row1').previousElementSibling;
+        var output = document.getElementById('row1').nextElementSibling;
+
+        var output = document.getElementById('row2').closest('div');
+
+
+        console.log(output);
+    </script>
+</body>
+</html>

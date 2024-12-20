@@ -1,0 +1,64 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+}
+body{
+	font-family: arial;
+}
+.maindiv{
+	width: 100%;
+}
+.row1{
+	width: 100%;
+	background-image: url('../images/spotlight-bg.webp');
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-size: cover;
+}
+.row1-inner{
+	width: 1300px;
+	border: 0px solid red;
+/*	height: 100px;*/
+	margin: auto;
+	padding: 80px 15px;
+}
+.heading{
+	color: white;
+	text-align: center;
+}
+.heading b{
+	font-size: 50px;
+	background-image: url('../images/spotlight-heading-bg.svg');
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	padding: 0px 15px;
+}
+.heading p{
+	font-size: 20px;
+	padding-top: 15px;
+}
+.clear{
+	clear: both;
+}
+.border{
+	border-left: 1px solid gray;
+}
+.numberbox{
+	color: white;
+	padding-top: 30px;
+}
+.numberbosdesign{
+	float: left;
+	width: 25%;
+	text-align: center;
+	box-sizing: border-box;
+}
+.numberbosdesign h2{
+	font-size: 50px;
+}
+.numberbosdesign p{
+	font-size: 20px;
+	padding-top: 30px;
+	color: #9CB2C5;
+}

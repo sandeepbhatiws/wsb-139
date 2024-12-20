@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Function</title>
+</head>
+<body>
+    <button onclick="add(25,35)">Click Me (25, 35)</button>
+    <button ondblclick="add(15,20)">Click Me (15,20)</button>
+    <button onmouseover="add(22,18)">Click Me (22,18)</button>
+    <button onmouseover="add(7,13)" onmouseout="add(7,13)">Click Me (7,13)</button>
+
+    <script>
+
+        // Declaration
+        function add(a,b){
+            var c = a+b;
+            console.log(c);
+        }
+
+        // Execute
+        add(5,10);
+
+    </script>
+</body>
+</html>

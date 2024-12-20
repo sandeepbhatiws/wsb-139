@@ -1,0 +1,30 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    text-decoration: none;
+}
+.outer{
+    width: 1200px;
+    margin: auto;
+}
+.faqs{
+    border: 1px solid black;
+    margin-bottom: 15px;
+}
+.faqquestion{
+    background-color: black;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    cursor: pointer;
+}
+.faqquestion span{
+    float: right;
+}
+.faqanswer{
+    padding: 10px 20px;
+}
+.display{
+    display: none;
+}

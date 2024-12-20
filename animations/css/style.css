@@ -1,0 +1,98 @@
+
+@keyframes colorChange {
+	from {
+		background-color: red;
+	}
+	to {
+		background-color: blue;
+	}
+}
+
+@keyframes colorChange2 {
+	0% {
+		background-color: red;
+	}
+	50%{
+		background-color: green;
+	}
+	100% {
+		background-color: blue;
+	}
+}
+
+
+.row{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: colorChange2;
+	animation-duration: 4s;
+/*	animation-delay: 5s;*/
+	animation-iteration-count: infinite;
+}
+
+@keyframes divMove {
+	0% {
+		transform: translateX(0px);
+		background-color: darkred;
+	}
+	50%{
+		transform: translateX(300px);
+		background-color: green;
+	}
+	100% {
+		transform: translateX(600px);
+		background-color: blue;
+	}
+}
+
+.row1{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: divMove;
+	margin-bottom: 25px;
+	animation-duration: 20s;
+	animation-iteration-count: infinite;
+}
+.row2{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: divMove;
+	animation-duration: 20s;
+	margin-bottom: 25px;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+.row3{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: divMove;
+	animation-duration: 20s;
+	margin-bottom: 25px;
+	animation-timing-function: ease-in;
+	animation-iteration-count: infinite;
+}
+.row4{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: divMove;
+	margin-bottom: 25px;
+	animation-duration: 20s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: infinite;
+}
+.row5{
+	width: 200px;
+	height: 200px;
+	background: black;
+	animation: divMove;
+	margin-bottom: 25px;
+	animation-duration: 20s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}

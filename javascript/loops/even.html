@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loops</title>
+</head>
+<body>
+    
+    
+
+    <script>
+        var number = parseInt(prompt('Enter the value of number'));
+        var sum = 0;
+
+        for(var i = 1; i <= number; i++){
+            if(i%2 == 0){
+                sum = sum+i;
+                console.log(sum);
+            }
+        }
+
+        document.write('Sum of Even Number - '+sum);
+
+
+
+
+        // for(var i =1; i <= number; i++){
+
+        //     // if(i%2 == 0){
+        //     //     document.write('Even Number - '+i+'<br>');
+        //     // }
+
+        //     // if(i%2 != 0){
+        //     //     document.write('Odd Number - '+i+'<br>');
+        //     // }
+        // }
+    </script>
+</body>
+</html>

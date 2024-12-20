@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Properties</title>
+    <style>
+        .row{
+            text-align: center;
+        }
+        button{
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row" id="row">
+        <img src="images/off.gif" id="image"/>
+    </div>
+    <div class="row">
+        <button value="Submit" id="button" onclick="changeImage(this)">On</button>
+    </div>
+
+    <script>
+        function changeImage(data){
+            if(data.innerText == 'On'){
+                document.getElementById('image').src = 'images/on.gif';
+                document.getElementById('button').innerText = 'Off';
+            } else {
+                document.getElementById('image').src = 'images/off.gif';
+                document.getElementById('button').innerText = 'On';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Box</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <form id="formhandler">
+        <input type="text" name="email"/>
+        <button>Submit</button>
+    </form>
+
+    <ul id="output">
+
+    </ul>
+
+    <script>
+
+        var userInfo = [];
+        document.getElementById('formhandler').addEventListener('submit',(event) => {
+            event.preventDefault();
+
+            console.log(event.target.email.value);
+
+            userInfo.push(event.target.email.value);
+
+            var output = '';
+            userInfo.forEach((v) => {
+                output += `<li>${ v }</li>`;
+            })
+
+            document.getElementById('output').innerHTML = output;
+
+
+            // var output = document.getElementById('output').innerHTML;
+            // output += `<li>${ event.target.email.value }</li>`;
+            // document.getElementById('output').innerHTML = output;
+
+            event.target.reset();
+
+        });
+    </script>
+</body>
+</html>

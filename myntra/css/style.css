@@ -1,0 +1,102 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+}
+body{
+	font-family: "Roboto", sans-serif;
+}
+.main{
+	width: 100%;
+}
+.header_outer{
+	width: 100%;
+	background-color: white;
+	box-shadow: 0px 0px 5px 5px dimgray;
+	padding: 0px 60px;
+	box-sizing: border-box;
+}
+.header{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 0px;
+}
+.header_icon_outer{
+	display: flex;
+	gap: 25px;
+	text-align: center;
+}
+.search_outer{
+	display: flex;
+	background: #F5F5F6;
+	padding: 15px;
+	flex-basis: 500px;
+	border-radius: 5px;
+}
+.menu ul{
+	display: flex;
+	list-style: none;
+}
+.logo img {
+	width: 55px;
+}
+.header_text{
+	font-size: 12px;
+	font-weight: bold;
+	padding-top: 5px;
+}
+.search_input{
+	width: 95%;
+}
+.search_input input{
+	background: #F5F5F6;
+	outline: none;
+	border: 0px;
+	margin: 0px 15px;
+	width: 95%;
+	color: #717288;
+}
+.search_icon{
+	color: #717288;
+}
+.menu ul li{
+	font-weight: bold;
+/*	text-align: center;*/
+	padding: 10px 15px;
+	color: #282C3F;
+	text-transform: uppercase;
+}
+.menu ul li a{
+	color: black;
+}
+.shipping_code_outer{
+	width: 100%;
+	background-color: white;
+}
+.shipping_code{
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 30px;
+}
+.shipping_image{
+	flex-grow: 1;
+}
+.shipping_image img{
+	width: 100%;
+}
+.banner{
+	padding: 0px;
+}
+.sponser{
+	padding: 0px 55px;
+}
+.season{
+	padding: 20px 0px;
+}
+.products{
+	flex-wrap: wrap;
+}
+.product_image{
+	flex-basis: 16%;
+}
