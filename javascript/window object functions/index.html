@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window Object Functions</title>
+    <style>
+        .output{
+            border: 1px solid gray;
+            /* float: left; */
+            width: 50px;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <button id="setTimeOut"> Set Time Out</button>
+    <button id="clearTimeOut">Clear Time Out</button>
+    <button id="setIntervel">Set Intervel</button>
+    <button id="clearIntervel">Clear Intervel</button>
+
+
+    <div class="output" id="output">0</div>
+    <script>
+
+        function getData(){
+            console.log('Welcome');
+        }
+
+        // setTimeout(getData,2000);
+        // setInterval(getData,2000);
+
+        var x = '';
+
+        document.getElementById('setTimeOut').addEventListener('click',() => {
+            x = setTimeout(getData,2000);
+        });
+
+        document.getElementById('clearTimeOut').addEventListener('click',() => {
+            clearTimeout(x);
+        });
+
+        var count = 10;
+        function counter(){
+            count++;
+            document.getElementById('output').innerText = count;
+        }
+
+        document.getElementById('setIntervel').addEventListener('click',() => {
+            x = setInterval(counter,1000);
+        });
+
+        document.getElementById('clearIntervel').addEventListener('click',() => {
+            clearInterval(x);
+        });
+
+
+    </script>
+
+</body>
+</html>
