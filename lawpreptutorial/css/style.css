@@ -1,3 +1,19 @@
 *{
 	text-decoration: none;
 }
+.logo{
+	width: 100px;
+}
+a{
+	color: white !important;
+}
+.navbar-custom{
+	background-color: white !important;
+	padding: 6px !important;
+}
+.menu li{
+	padding: 0px 20px;
+}
+.navmenu-custom:hover .dropdown-menu{
+	display: block;
+}
