@@ -3,10 +3,21 @@ import Web from '../assets/images/web.png'
 import Header from './Header'
 
 export default function Home() {
+
+    var status = true;
+
     return (
         <>
             <div class="main">
-                <Header/>
+
+                {
+                    status
+                    ?
+                    <Header/>
+                    :
+                    ''
+                }
+                
                 {/* <!-- middle portion with  links, new , banner and course starts here --> */}
                 <div class="middle-container con-height">
                     {/* <!-- left part of the middle portion starts here --> */}
