@@ -1,5 +1,3 @@
-
-
 var faqquestion = document.querySelectorAll('.faqquestion');
 
 faqquestion.forEach((element,index) => {
