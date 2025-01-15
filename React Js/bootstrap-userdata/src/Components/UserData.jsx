@@ -2,8 +2,50 @@ import React from 'react'
 import Table from 'react-bootstrap/Table';
 import { FaPencilAlt } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
+import statesData from '../data/state';
 
-export default function UserData({ allUserData }) {
+export default function UserData({ allUserData, setAllUserData, formData, setFormData, states,setStates }) {
+
+    const deleteRecord = (index) => {
+        if(confirm('Are you sure you want to delete ?')){
+            allUserData.splice(index,1);
+            setAllUserData([...allUserData]);
+        }
+    }
+
+    const updateRecord = (index) => {
+        var data = allUserData.filter((v,i) => {
+            if(index == i){
+                return v;
+            }
+        });
+
+        if(data[0].country_id != ''){
+            const datas = statesData.filter((v,i) => {
+                if(data[0].country_id == v.country_id){
+                    return v;
+                }
+            })
+
+            var finalData = [...datas];
+            setStates(finalData)
+
+        } else {
+            setStates([]);
+        }
+
+        setFormData({
+            name : data[0].name,
+            email : data[0].email,
+            mobile_number : data[0].mobile_number,
+            country_id : data[0].country_id,
+            state_id : data[0].state_id,
+            id : index
+        })
+
+        console.log(formData);
+    }
+
     return (
         <>
             <div className='container-fluid'>
@@ -33,18 +75,18 @@ export default function UserData({ allUserData }) {
                                         allUserData.map((v,i) => {
                                             return(
                                                 <tr>
-                                                    <td className='text-center'>1</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto@gmail.com</td>
-                                                    <td>1234567890</td>
-                                                    <td>India</td>
-                                                    <td>India</td>
+                                                    <td className='text-center'>{ i+1}</td>
+                                                    <td>{v.name}</td>
+                                                    <td>{v.email}</td>
+                                                    <td>{v.mobile_number}</td>
+                                                    <td>{v.country_name}</td>
+                                                    <td>{v.state_name}</td>
                                                     <td>
-                                                        <button className='btn btn-primary pb-2'>
+                                                        <button className='btn btn-primary pb-2' onClick={ () => updateRecord(i) }>
                                                             <FaPencilAlt />
                                                         </button>
 
-                                                        <button className='btn btn-danger ms-3 pb-2'>
+                                                        <button className='btn btn-danger ms-3 pb-2' onClick={ () => deleteRecord(i) }>
                                                             <FaTrashAlt />
                                                         </button>
                                                     </td>
