@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import countriesData from '../data/country';
 import statesData from '../data/state';
+import { toast } from 'react-toastify';
 
 export default function UserForm({allUserData, setAllUserData, formData, setFormData, states,setStates}) {
 
@@ -47,21 +48,62 @@ export default function UserForm({allUserData, setAllUserData, formData, setForm
             }
         })
 
-        console.log(name.current.value);
+        console.log(formData);
+        console.log(formData.id);
 
-        const userData = {
-            name : name.current.value,
-            email : email.current.value,
-            mobile_number : mobileNumber.current.value,
-            country_name : countryName[0].name,
-            state_name : stateName[0].name,
-            country_id : event.target.country_id.value,
-            state_id : event.target.state_id.value,
+        if(formData.id === ''){
+            const userData = {
+                name : name.current.value,
+                email : email.current.value,
+                mobile_number : mobileNumber.current.value,
+                country_name : countryName[0].name,
+                state_name : stateName[0].name,
+                country_id : event.target.country_id.value,
+                state_id : event.target.state_id.value,
+            }
+    
+            const final = [userData, ...allUserData];
+            setAllUserData(final);
+            localStorage.setItem('userInfo', JSON.stringify(final));
+
+            toast.success('Record created succesfully.');
+            
+        } else {
+            const finalData = allUserData.map((v,i) => {
+                if(i == formData.id){
+                    v.name = name.current.value;
+                    v.email = email.current.value;
+                    v.mobile_number = mobileNumber.current.value;
+                    v.country_name = countryName[0].name;
+                    v.state_name = stateName[0].name;
+                    v.country_id = event.target.country_id.value;
+                    v.state_id = event.target.state_id.value;
+
+                    return v;
+
+                } else {
+                    return v;
+                }
+            })
+
+            const final = [...finalData];
+            setAllUserData(final);
+            localStorage.setItem('userInfo', JSON.stringify(final));
+
+            setFormData({
+                name : '',
+                email : '',
+                mobile_number : '',
+                country_id : '',
+                state_id : '',
+                id : ''
+            })
+
+            toast.success('Record updated succesfully.');
         }
 
-        const final = [userData, ...allUserData];
-        setAllUserData(final);
-
+        
+    
         // event.target.name.value = '';
         event.target.reset();
         setStates([]);
@@ -133,7 +175,9 @@ export default function UserForm({allUserData, setAllUserData, formData, setForm
                                 </Row>
 
                                 <Button variant="primary" type="submit">
-                                    Submit
+                                    {
+                                        (formData.id === '') ? 'Save' : 'Update'
+                                    }
                                 </Button>
                             </Form>
                         </div>

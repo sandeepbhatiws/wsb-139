@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import { FaPencilAlt } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import statesData from '../data/state';
+import { toast } from 'react-toastify';
 
 export default function UserData({ allUserData, setAllUserData, formData, setFormData, states,setStates }) {
 
@@ -10,6 +11,10 @@ export default function UserData({ allUserData, setAllUserData, formData, setFor
         if(confirm('Are you sure you want to delete ?')){
             allUserData.splice(index,1);
             setAllUserData([...allUserData]);
+
+            localStorage.setItem('userInfo',JSON.stringify(allUserData));
+
+            toast.success('Record deleted succesfully.');
         }
     }
 
