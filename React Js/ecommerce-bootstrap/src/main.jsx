@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Route, Routes } from "react-router";
 import Home from './Components/Home'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,14 +11,43 @@ import './assets/css/responsive.css';
 
 import ProductListing from './Components/ProductListing'
 import ProductDetail from './Components/ProductDetail'
+import Rootlayout from './Components/Rootlayout';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Home/>
+  <BrowserRouter>
+    <Routes>
+
+      {/* Method 1 */}
+      {/* <Route path="/" element={<Home/>} />
+      <Route path="products" element={<ProductListing/>} />
+      <Route path="product-details" element={<ProductDetail/>} /> */}
+
+      
+      {/* // Method 2 */}
+      <Route element={<Rootlayout/>}>
+        <Route path="/" element={<Home/>} />
+        <Route path="products/:slug?/:sub_slug?" element={<ProductListing/>} />
+        <Route path="product-details/:id" element={<ProductDetail/>} />
+      </Route>
+      
+      {/* <Route path='admin-panel'>
+        <Route path='categories'>
+          <Route path='add-category' element={<ProductListing/>}/>
+          <Route path='view-category' element={<ProductListing/>}/>
+        </Route>
+
+        <Route path='products'>
+          <Route path='add-product' element={<ProductListing/>}/>
+          <Route path='view-product' element={<ProductListing/>}/>
+        </Route>
+      </Route> */}
+
+    </Routes>
+    
 
     {/* <ProductListing/>
 
 
     <ProductDetail/> */}
-  </StrictMode>,
+  </BrowserRouter>,
 )

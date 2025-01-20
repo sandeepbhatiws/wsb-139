@@ -4,9 +4,7 @@ import Header from './Header'
 export default function Home() {
     return (
     <>
-        <Header />
-
-        
+       
         
         <hr/>
         
@@ -111,7 +109,7 @@ export default function Home() {
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card">
-                            <img class="card-img-top" src="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/images/items/1.jpg" alt="Card image cap"/>
+                            <img class="card-img-top" src="https://rukminim2.flixcart.com/image/612/612/xif0q/jacket/0/t/m/m-1-no-udjcks1461-u-s-polo-assn-denim-co-original-imah7yzygrsqmxmd.jpeg?q=70" alt="Card image cap"/>
                                 <div class="card-body">
                                     <p class="card-text"><a href="https://codepen.io/deep890/pen/oNYdqMx" class= "text-dark">Denim shirt</a></p>
                                     <h4 class="pb-0 pt-0">$12</h4>
@@ -130,63 +128,14 @@ export default function Home() {
                         <p>Get an amazing app to make your life easy</p>
                     </div>
                     <div class="col-md-4">
-                        <img src="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/images/misc/appstore.png" class="mt-5" id="cool"/>
+                        <img src="https://constant.myntassets.com/web/assets/img/80cc455a-92d2-4b5c-a038-7da0d92af33f1539674178924-google_play.png" class="mt-5" id="cool"/>
                     </div>
 
                 </div>
             </div>
 
         </div>
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <ul>
-                            <h6 class="mt-5">Brands</h6>
-                            <li><a href="">Adidas</a></li>
-                            <li><a href="">Puma</a></li>
-                            <li><a href="">Reebok</a></li>
-                            <li><a href="">Nike</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-md-3">
-                        <ul>
-                            <h6 class="mt-5">Company</h6>
-                            <li><a href="">About us</a></li>
-                            <li><a href="">Career</a></li>
-                            <li><a href="">Find a store</a></li>
-                            <li><a href="">Rules and terms</a></li>
-                            <li><a href="">Sitemap</a></li>
-                        </ul>
-                    </div>
-
-
-                    <div class="col-md-3">
-                        <ul>
-                            <h6 class="mt-5">Account</h6>
-                            <li><a href="">User Login</a></li>
-                            <li><a href="">User register</a></li>
-                            <li><a href="">Account Setting</a></li>
-                            <li><a href="">My Orders</a></li>
-
-                        </ul>
-                    </div>
-
-                    <div class="col-md-3">
-                        <ul>
-                            <h6 class="mt-5">Social</h6>
-                            <li><a href=""><i class="fab fa-facebook"></i> Facebook</a></li>
-                            <li><a href=""><i class="fab fa-twitter"></i> Twitter</a></li>
-                            <li><a href=""><i class="fab fa-instagram"></i> Instagram</a></li>
-                            <li><a href=""><i class="fab fa-youtube"></i> Youtube</a></li>
-
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </footer>
+        
 
         {/* <!-- Modal --> */}
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

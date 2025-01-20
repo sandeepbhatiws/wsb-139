@@ -11,7 +11,7 @@ export default function Header() {
             <ToastContainer />
             <header className='container-fluid'>
                 <div class="container">
-                    <div class="row">
+                    <div class="row justify-content-between align-items-center">
                         <div class="col-md-2 mt-2">
                             <a class="navbar-brand" href="#">
                                 <img src="https://www.wscubetech.com/images/wscube-tech-logo-2.svg" alt="image of logo" class="img-fluid " />
@@ -29,13 +29,13 @@ export default function Header() {
                             </div>
                         </div>
 
-                        <div class="col-md-3 mt-3">
-                            <div class="circle float-right">
+                        <div class="col-md-3 mt-3 d-flex justify-content-end">
+                            <div class="circle me-3">
                                 <FaShoppingCart className='text-muted'/>
                                 <span class="badge badge-danger">0</span>
 
                             </div>
-                            <div class="circle float-right mr-4">
+                            <div class="circle mr-4">
                                 <FaUser className='text-muted' data-target="#exampleModal" data-toggle="modal"/>
                                 <span class="badge badge-danger">0</span>
 
