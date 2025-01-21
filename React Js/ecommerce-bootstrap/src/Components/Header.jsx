@@ -1,11 +1,27 @@
-import React from 'react'
-import { ToastContainer } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 import { FaSearch } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function Header() {
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://wscubetech.co/ecommerce-api/categories.php')
+        .then((response) => {
+            setCategories(response.data.data)
+        })
+        .catch((error) => {
+        toast.error('Something went wrong !!'); 
+        });
+    },[]);
+
+
     return (
         <>
             <ToastContainer />
@@ -13,7 +29,7 @@ export default function Header() {
                 <div class="container">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-2 mt-2">
-                            <a class="navbar-brand" href="#">
+                            <a class="navbar-brand" href="/">
                                 <img src="https://www.wscubetech.com/images/wscube-tech-logo-2.svg" alt="image of logo" class="img-fluid " />
                             </a>
                         </div>
@@ -44,6 +60,46 @@ export default function Header() {
                     </div>
                 </div>
             </header>
+
+            <hr/>
+        
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light " id="navbar">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav" id="nav">
+                            <li class="nav-item active">
+                                <Link class="nav-link" to="/">Home</Link>
+                            </li>
+
+                            <li class="nav-item">
+                                <Link class="nav-link" to="/products">All</Link>
+                            </li>
+
+                            {
+                                categories.map((v,i) => {
+                                    return (
+                                    
+                                        (i < 10) ? 
+                                            
+                                                <li class="nav-item" key={i}>
+                                                    <Link class="nav-link" to={ `/products/${v.slug}` }>{ v.name }</Link>
+                                                </li> 
+                                            
+                                        : ''
+
+                                    )
+                                })
+                            }
+                            
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <hr id="hr"/>
         </>
     )
 }

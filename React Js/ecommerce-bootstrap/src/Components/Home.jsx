@@ -1,66 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
+import ProductCard from './ProductCard'
+import axios from 'axios'
 
 export default function Home() {
+
+    var limit = 12;
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        axios.get(`https://wscubetech.co/ecommerce-api/products.php?limit=${limit}`)
+        .then((response) => {
+            setProducts(response.data.data)
+        })
+        .catch((error) => {
+
+        })
+    },[]);
+
+
     return (
     <>
-       
-        
-        <hr/>
-        
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light " id="navbar">
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav" id="nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Supermarket</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Paternship</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Baby & toys</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Fitness sports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Clothing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Furniture</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                More
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Food & Drinks</a>
-                                <a class="dropdown-item" href="#">Home interior </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Category 1</a>
-                                <a class="dropdown-item" href="#">Category 2</a>
-                                <a class="dropdown-item" href="#">Category 3</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-
-        <hr id="hr"/>
-
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -104,18 +65,17 @@ export default function Home() {
         <div class="products">
             <div class="container">
                 <button class="btn btn-sm btn-outline-primary float-right mt-5 but">See all</button>
-                <h1 class="pt-5 pb-5">Popular Products</h1>
+                <h1 class="pt-5 pb-5">All Products</h1>
 
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <img class="card-img-top" src="https://rukminim2.flixcart.com/image/612/612/xif0q/jacket/0/t/m/m-1-no-udjcks1461-u-s-polo-assn-denim-co-original-imah7yzygrsqmxmd.jpeg?q=70" alt="Card image cap"/>
-                                <div class="card-body">
-                                    <p class="card-text"><a href="https://codepen.io/deep890/pen/oNYdqMx" class= "text-dark">Denim shirt</a></p>
-                                    <h4 class="pb-0 pt-0">$12</h4>
-                                </div>
-                        </div>
-                    </div>
+                    {
+                        products.map((v,i) => {
+                            return(
+                                <ProductCard key={i}/>
+                            )
+                        })
+                    }
+                    
                 </div>
             </div>
         </div>
