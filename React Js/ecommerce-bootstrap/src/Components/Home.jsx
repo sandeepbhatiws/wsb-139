@@ -71,7 +71,7 @@ export default function Home() {
                     {
                         products.map((v,i) => {
                             return(
-                                <ProductCard key={i}/>
+                                <ProductCard key={i} productData={v}/>
                             )
                         })
                     }
