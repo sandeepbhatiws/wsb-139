@@ -38,6 +38,9 @@ export default function ProductListing() {
 
   const [page, setPage] = useState(1);
   const [sorting, setSorting] = useState('');
+  const [priceFrom, setPriceFrom] = useState('');
+  const [priceTo, setPriceTo] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
       axios.get('https://wscubetech.co/ecommerce-api/products.php',{
@@ -45,9 +48,9 @@ export default function ProductListing() {
             page : page,
             limit : 18,
             sorting : sorting,
-            name : '',
-            price_from : '',
-            price_to : '',
+            name : name,
+            price_from : priceFrom,
+            price_to : priceTo,
             discount_from : '',
             discount_to : '',
             ratings : '',
@@ -61,12 +64,40 @@ export default function ProductListing() {
       .catch((error) => {
 
       })
-  },[page, sorting, filterCategories]);
+  },[page, sorting, filterCategories, priceFrom, priceTo, name]);
 
   const filterSorting = (value) => {
     setSorting(value);
   }
 
+  const filterCategory = (slug) => {
+
+    if(filterCategories.includes(slug)){
+      var data = filterCategories.filter((v,i) => {
+        if(v != slug){
+          return v;
+        }
+      })
+
+      const finalData = [...data];
+      setFilterCategories(finalData);
+    } else {
+      const finalData = [...filterCategories, slug];
+      setFilterCategories(finalData);
+
+      console.log(finalData);
+    }
+  }
+
+  const filterPrice = (from, to) => {
+    setPriceFrom(from);
+    setPriceTo(to);
+  }
+
+  const filterName = (event) => {
+    console.log(event.target.value);
+    setName(event.target.value);
+  }
 
   return (
     <>
@@ -91,7 +122,7 @@ export default function ProductListing() {
                         categories.map((v,i) => {
                           return(
                             <div class="custom-control custom-checkbox mb-3">
-                              <input type="checkbox" class="custom-control-input  pe-2" id={v.slug}  checked={ (params.slug == v.slug) ? 'checked' : '' }/>
+                              <input type="checkbox" class="custom-control-input  pe-2" id={v.slug}  checked={ (filterCategories.includes(v.slug)) ? 'checked' : '' }  onClick={ () => filterCategory(v.slug) }/>
                                 <label class="custom-control-label ps-2" for={v.slug}>{ v.name }</label>
                             </div>
                           )
@@ -100,15 +131,31 @@ export default function ProductListing() {
                       
                     </div>
                     {/* <!--seating option end--> */}
-                    <h2 class="font-xbold body-font border-bottom filter-title">Cuisines</h2>
+                    <h2 class="font-xbold body-font border-bottom filter-title">Price Range</h2>
                     <div class="mb-3 filter-options" id="cusine-options">
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="Chinese" checked/>
-                          <label class="custom-control-label" for="Chinese">Chinese</label>
+                        <input type="radio" name='price' class="custom-control-input" id="0 - 250" onClick={ () => filterPrice(0,250) }/>
+                          <label class="custom-control-label ms-2" for="0 - 250">0 - 250</label>
                       </div>
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="Italian"/>
-                          <label class="custom-control-label" for="Italian">Italian</label>
+                        <input type="radio" name='price' class="custom-control-input" id="251 - 500" onClick={ () => filterPrice(251,500) }/>
+                          <label class="custom-control-label ms-2" for="251 - 500">251 - 500</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input type="radio" name='price' class="custom-control-input" id="501 - 750" onClick={ () => filterPrice(501,750) }/>
+                          <label class="custom-control-label ms-2" for="501 - 750">501 - 750</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input type="radio" name='price' class="custom-control-input" id="751 - 1000" onClick={ () => filterPrice(751,1000) }/>
+                          <label class="custom-control-label ms-2" for="751 - 1000">751 - 1000</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input type="radio" name='price' class="custom-control-input" id="1001 - 1250" onClick={ () => filterPrice(1001,1250) }/>
+                          <label class="custom-control-label ms-2" for="1001 - 1250">1001 - 1250</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input type="radio" name='price' class="custom-control-input" id="1251 - 1500" onClick={ () => filterPrice(1251,1500) }/>
+                          <label class="custom-control-label ms-2" for="1251 - 1500">1251 - 1500</label>
                       </div>
                     </div>
 
@@ -147,6 +194,9 @@ export default function ProductListing() {
             <div class="content col-md-9">
               <div class="d-flex justify-content-between border-bottom align-items-center mb-3">
                 <h2 class="title">Products</h2>
+
+                <input type='text' name='product_name' onKeyUp={ filterName }/>
+
                 <div class="filters-actions">
                   <div>
                     <button class="btn filter-btn d-md-none"><svg xmlns="http://www.w3.org/2000/svg" class="mr-2" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" /></svg>
