@@ -12,6 +12,7 @@ import './assets/css/responsive.css';
 import ProductListing from './Components/ProductListing'
 import ProductDetail from './Components/ProductDetail'
 import Rootlayout from './Components/Rootlayout';
+import Context from './ContextAPI/Context';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -24,6 +25,11 @@ createRoot(document.getElementById('root')).render(
 
       
       {/* // Method 2 */}
+
+      {/* <Context>
+
+      </Context> */}
+
       <Route element={<Rootlayout/>}>
         <Route path="/" element={<Home/>} />
         <Route path="products/:slug?/:sub_slug?" element={<ProductListing/>} />
