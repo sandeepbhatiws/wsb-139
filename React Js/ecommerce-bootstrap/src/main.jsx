@@ -16,7 +16,7 @@ import Context from './ContextAPI/Context';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <Routes>
+    
 
       {/* Method 1 */}
       {/* <Route path="/" element={<Home/>} />
@@ -26,15 +26,17 @@ createRoot(document.getElementById('root')).render(
       
       {/* // Method 2 */}
 
-      {/* <Context>
+      <Context>
+        <Routes>
+          <Route element={<Rootlayout/>}>
+            <Route path="/" element={<Home/>} />
+            <Route path="products/:slug?/:sub_slug?" element={<ProductListing/>} />
+            <Route path="product-details/:id" element={<ProductDetail/>} />
+          </Route>
+        </Routes>
+      </Context>
 
-      </Context> */}
-
-      <Route element={<Rootlayout/>}>
-        <Route path="/" element={<Home/>} />
-        <Route path="products/:slug?/:sub_slug?" element={<ProductListing/>} />
-        <Route path="product-details/:id" element={<ProductDetail/>} />
-      </Route>
+      
       
       {/* <Route path='admin-panel'>
         <Route path='categories'>
@@ -48,7 +50,7 @@ createRoot(document.getElementById('root')).render(
         </Route>
       </Route> */}
 
-    </Routes>
+    
     
 
     {/* <ProductListing/>

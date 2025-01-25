@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { FaSearch } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { cartContext } from '../ContextAPI/Context';
 
 
 export default function Header() {
 
     const [categories, setCategories] = useState([]);
+
+    let { cartItems, wishlistItems } = useContext(cartContext);
 
     useEffect(() => {
         axios.get('https://wscubetech.co/ecommerce-api/categories.php')
@@ -50,7 +53,7 @@ export default function Header() {
                             <div class="col-md-3 mt-3 d-flex justify-content-end">
                                 <div class="circle me-3">
                                     <FaShoppingCart className='text-muted'/>
-                                    <span class="badge badge-danger">0</span>
+                                    <span class="badge badge-danger bg-black mt-3 me-5 fs-5">{ cartItems.length }</span>
 
                                 </div>
                                 <div class="circle mr-4">

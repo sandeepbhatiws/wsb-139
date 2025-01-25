@@ -1,22 +1,25 @@
 import React, { createContext, useState } from 'react'
+import { toast } from 'react-toastify';
 
 const cartContext = createContext();
 
-export default function Context() {
+export default function Context({children}) {
 
-    const [cartItems, setCartItems] = useState([]);
+    var getCartItems = JSON.parse(localStorage.getItem('cartItems'));
+
+    const [cartItems, setCartItems] = useState((getCartItems) ? getCartItems : []);
     const [wishlistItems, setWishListItems] = useState([]);
 
-    const addTocart = () => {
+    // const addToCart = () => {
+    //   toast.success('Add to cart successfully !!');
+    // }
 
-    }
-
-    var data = { cartItems, setCartItems, wishlistItems, setWishListItems, addTocart };
+    var data = { cartItems, setCartItems, wishlistItems, setWishListItems };
 
 
   return (
     <cartContext.Provider value={data}>
-
+      {children}
     </cartContext.Provider>
   )
 }
