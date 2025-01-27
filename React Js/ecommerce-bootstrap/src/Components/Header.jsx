@@ -52,9 +52,10 @@ export default function Header() {
 
                             <div class="col-md-3 mt-3 d-flex justify-content-end">
                                 <div class="circle me-3">
+                                    <Link to="view-cart">
                                     <FaShoppingCart className='text-muted'/>
                                     <span class="badge badge-danger bg-black mt-3 me-5 fs-5">{ cartItems.length }</span>
-
+                                    </Link>
                                 </div>
                                 <div class="circle mr-4">
                                     <FaUser className='text-muted' data-target="#exampleModal" data-toggle="modal"/>

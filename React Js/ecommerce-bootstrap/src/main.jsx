@@ -13,6 +13,7 @@ import ProductListing from './Components/ProductListing'
 import ProductDetail from './Components/ProductDetail'
 import Rootlayout from './Components/Rootlayout';
 import Context from './ContextAPI/Context';
+import CardListing from './Components/CardListing';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Home/>} />
             <Route path="products/:slug?/:sub_slug?" element={<ProductListing/>} />
             <Route path="product-details/:id" element={<ProductDetail/>} />
+            <Route path="view-cart" element={<CardListing/>} />
           </Route>
         </Routes>
       </Context>
