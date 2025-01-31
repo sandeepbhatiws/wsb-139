@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { commonContext } from '../ContextAPI/Context'
 import { ToastContainer } from 'react-toastify'
 
@@ -20,11 +20,20 @@ export default function Header() {
 
     const [status, setStatus] = useState(true);
 
-    let { isLogin } = useContext(commonContext);
+    const navigate = useNavigate();
+
+    let { isLogin, setisLogin } = useContext(commonContext);
 
     const topHeader = () => {
         setStatus(false);
     }
+
+    const logout = () => {
+        localStorage.removeItem('userLogin')
+        setisLogin(!isLogin);
+        navigate('/')
+    }
+
     return (
         <>  
             <div className={ (status) ? '' : 'hidden' }>
@@ -155,8 +164,7 @@ export default function Header() {
                                                 </a>
                                             </MenuItem>
                                             <MenuItem>
-                                                <a
-                                                    href="#"
+                                                <a onClick={ logout }
                                                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                                                 >
                                                     Sign out
