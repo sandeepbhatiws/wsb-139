@@ -3,6 +3,7 @@ import { Link, useNavigate, useNavigation } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { commonContext } from '../ContextAPI/Context';
+import SocialLogin from './SocialLogin';
 
 export default function Register() {
 
@@ -137,14 +138,7 @@ export default function Register() {
                         </Link>
                     </p>
 
-                    <div className='mt-6'>
-                        <button
-                            type="button"
-                            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                            Login with Google
-                        </button>
-                    </div>
+                    <SocialLogin/>
                 </div>
             </div>
         </div>
