@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function Header() {
@@ -7,13 +8,13 @@ export default function Header() {
             <header
                 class="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5"
             >
-                <a href="index.html">
+                <Link href="/">
                     <img
                         class="cursor-pointer sm:h-auto sm:w-auto"
                         src="/images/company-logo.svg"
                         alt="company logo"
                     />
-                </a>
+                </Link>
 
                 <div class="md:hidden">
                     <button>
@@ -84,8 +85,8 @@ export default function Header() {
                     <p class="text-xs">Wishlist</p>
                 </a>
 
-                <a
-                    href="cart.html"
+                <Link
+                    href="/cart"
                     class="flex cursor-pointer flex-col items-center justify-center"
                 >
                     <svg
@@ -102,7 +103,7 @@ export default function Header() {
                     </svg>
 
                     <p class="text-xs">Cart</p>
-                </a>
+                </Link>
 
                 <a
                     href="account-page.html"
@@ -167,8 +168,8 @@ export default function Header() {
                     <p class="text-xs">Wishlist</p>
                 </a>
 
-                <a
-                    href="cart.html"
+                <Link
+                    href="/cart"
                     class="flex cursor-pointer flex-col items-center justify-center"
                 >
                     <svg
@@ -185,7 +186,7 @@ export default function Header() {
                     </svg>
 
                     <p class="text-xs">Cart</p>
-                </a>
+                </Link>
 
                 <a
                     href="account-page.html"
@@ -249,8 +250,8 @@ export default function Header() {
                 </button>
             </form>
             <ul class="text-center font-medium">
-                <li class="py-2"><a href="index.html">Home</a></li>
-                <li class="py-2"><a href="catalog.html">Catalog</a></li>
+                <li class="py-2"><Link href="/">Home</Link></li>
+                <li class="py-2"><Link href="/catalog">Catalog</Link></li>
                 <li class="py-2"><a href="about-us.html">About Us</a></li>
                 <li class="py-2"><a href="contact-us.html">Contact Us</a></li>
             </ul>
@@ -289,15 +290,15 @@ export default function Header() {
             </button>
 
             <div class="mx-7 flex gap-8">
-                <a
+                <Link
                     class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
-                    href="index.html"
-                >Home</a
+                    href="/"
+                >Home</Link
                 >
-                <a
+                <Link
                     class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
-                    href="catalog.html"
-                >Catalog</a
+                    href="/catalog"
+                >Catalog</Link
                 >
                 <a
                     class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
