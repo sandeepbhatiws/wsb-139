@@ -1,9 +1,35 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ShopCategory from './ShopCategory'
 import ProductSection from './ProductSection';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import ProductLoading from './ProductLoading';
 
 export default function Home() {
+
+    const [topArrival, setTopArrival] = useState([]);
+    const [recommodation, setRecommondation] = useState([]);
+    const [topArrivalLoader, setTopArrivalLoader] = useState(true);
+
+    useEffect(() => {
+        axios.get('https://wscubetech.co/ecommerce-api/products.php',{
+            params : {
+                limit : 8,
+                categories : 'furniture, mens-shoes'
+            }
+        })
+        .then((response) => {
+            setTopArrival(response.data.data);
+            setTopArrivalLoader(false);
+        })
+        .catch(() => {
+            toast.error('Something went wrong !!')
+        })
+
+    },[]);
+
+
     return (
         <>
             {/* <!-- Offer image  --> */}
@@ -135,8 +161,18 @@ export default function Home() {
             {/* <!-- /Cons bages  --> */}
 
             <ShopCategory/>
-
-            <ProductSection heading='Top Arrival'/>
+            
+            {
+                topArrivalLoader
+                ?
+                <ProductLoading/>
+                :
+                (topArrival.length > 0)
+                    ?
+                        <ProductSection heading='Top Arrival' allProducts={topArrival}/>
+                    :
+                ''
+            }
 
             <div class="mx-auto max-w-[1200px] px-5">
                 <section
@@ -165,7 +201,15 @@ export default function Home() {
                 </section>
             </div>
 
-            <ProductSection heading='RECOMMENDED FOR YOU'/>
+            {
+                (recommodation.length > 0)
+                ?
+                <ProductSection heading='RECOMMENDED FOR YOU'/>
+                :
+                ''
+            }
+
+            
         </>
     )
 }

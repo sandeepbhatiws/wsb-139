@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import ProductCard from './ProductCard'
 
-export default function ProductSection({ heading }) {
+export default function ProductSection({ heading, allProducts }) {
 
-    const [products, setProducts] = useState([1,2,3,4,5,6,7,8]);
+    const [products, setProducts] = useState(allProducts ? allProducts : []);
 
     return (
         <>
@@ -19,7 +19,7 @@ export default function ProductSection({ heading }) {
                 {
                     products.map((v,i) => {
                         return(
-                            <ProductCard key={i}/>
+                            <ProductCard key={i} data={v}/>
                         )  
                     })
                 }
@@ -27,6 +27,7 @@ export default function ProductSection({ heading }) {
                 
             </section>
             {/* <!-- /Recommendations --> */}
+             
         </>
     )
 }
