@@ -38,7 +38,7 @@ export default function ProductRating({rating}) {
 
   return (
     <>
-      {finalrating}
+      {/* { finalrating } */}
     </>
   )
 

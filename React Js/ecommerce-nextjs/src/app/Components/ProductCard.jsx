@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductRating from './ProductRating'
+import Link from 'next/link'
 
 export default function ProductCard({data}) {
     return (
@@ -14,7 +15,7 @@ export default function ProductCard({data}) {
                     <div
                         class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100"
                     >
-                        <a href="product-overview.html">
+                        <Link href={` /catalog/${data.category_slug}/${data.id} `}>
                             <span
                                 class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400"
                             >
@@ -33,7 +34,7 @@ export default function ProductCard({data}) {
                                     />
                                 </svg>
                             </span>
-                        </a>
+                        </Link>
                         <span
                             class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400"
                         >
@@ -65,12 +66,7 @@ export default function ProductCard({data}) {
                     </p>
 
                     <div class="flex items-center">
-                        
                         <ProductRating rating={data.rating}/>
-
-                        
-
-                        
                         <p class="text-sm text-gray-400">(38)</p>
                     </div>
 

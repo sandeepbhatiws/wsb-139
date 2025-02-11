@@ -16,11 +16,28 @@ export default function Home() {
         axios.get('https://wscubetech.co/ecommerce-api/products.php',{
             params : {
                 limit : 8,
-                categories : 'furniture, mens-shoes'
+                categories : 'furniture,home-decoration'
             }
         })
         .then((response) => {
             setTopArrival(response.data.data);
+            setTopArrivalLoader(false);
+        })
+        .catch(() => {
+            toast.error('Something went wrong !!')
+        })
+
+    },[]);
+
+    useEffect(() => {
+        axios.get('https://wscubetech.co/ecommerce-api/products.php',{
+            params : {
+                limit : 8,
+                categories : 'mens-shirts,mens-shoes'
+            }
+        })
+        .then((response) => {
+            setRecommondation(response.data.data);
             setTopArrivalLoader(false);
         })
         .catch(() => {
@@ -204,7 +221,7 @@ export default function Home() {
             {
                 (recommodation.length > 0)
                 ?
-                <ProductSection heading='RECOMMENDED FOR YOU'/>
+                <ProductSection heading='RECOMMENDED FOR YOU' allProducts={recommodation}/>
                 :
                 ''
             }

@@ -1,37 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
+import { useParams } from 'next/navigation'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function ProductDetails() {
+
+  const params = useParams();
+  const [prodoctDetails, setProductDetails] = useState('');
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get(`https://wscubetech.co/ecommerce-api/productdetails.php?id=${params.category_slug[1]}`)
+      .then((response) => {
+        setProductDetails(response.data.product)
+      })
+      .catch((error) => {
+        toast.error('Something went wrong.');
+      })
+  }, [])
+
+  useEffect(() => {
+    axios.get('https://wscubetech.co/ecommerce-api/products.php',{
+        params : {
+            limit : 4,
+            categories : params.category_slug[0]
+        }
+    })
+    .then((response) => {
+      setRelatedProducts(response.data.data);
+    })
+    .catch(() => {
+        toast.error('Something went wrong !!')
+    })
+
+},[]);
+
+
   return (
     <>
       <nav class="mx-auto w-full mt-4 max-w-[1200px] px-5">
-          <ul class="flex items-center">
-            <li class="cursor-pointer">
-              <a href="index.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="h-5 w-5"
-                >
-                  <path
-                    d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"
-                  />
-                  <path
-                    d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"
-                  />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <span class="mx-2 text-gray-500">&gt;</span>
-            </li>
+        <ul class="flex items-center">
+          <li class="cursor-pointer">
+            <a href="index.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-5 w-5"
+              >
+                <path
+                  d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"
+                />
+                <path
+                  d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"
+                />
+              </svg>
+            </a>
+          </li>
+          <li>
+            <span class="mx-2 text-gray-500">&gt;</span>
+          </li>
 
-            <li class="text-gray-500">Big italian sofa</li>
-          </ul>
-        </nav>
+          <li class="text-gray-500">Big italian sofa</li>
+        </ul>
+      </nav>
 
-        <section
+      <section
         class="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10"
       >
         {/* <!-- image gallery --> */}
@@ -82,7 +117,7 @@ export default function ProductDetails() {
         {/* <!-- description  --> */}
 
         <div class="mx-auto px-5 lg:px-5">
-          <h2 class="pt-3 text-2xl font-bold lg:pt-0">BIG ITALIAN SOFA</h2>
+          <h2 class="pt-3 text-2xl font-bold lg:pt-0">{prodoctDetails.name}</h2>
           <div class="mt-1">
             <div class="flex items-center">
               <svg
@@ -155,25 +190,30 @@ export default function ProductDetails() {
           </div>
 
           <p class="mt-5 font-bold">
-            Availability: <span class="text-green-600">In Stock</span>
+            Availability:
+            {
+              (prodoctDetails.stock > 0)
+                ?
+                <span class="text-green-600">In Stock</span>
+                :
+                <span class="text-red-600">Out of Stock</span>
+            }
+
           </p>
-          <p class="font-bold">Brand: <span class="font-normal">Apex</span></p>
+          <p class="font-bold">Brand: <span class="font-normal">{prodoctDetails.brand}</span></p>
           <p class="font-bold">
-            Cathegory: <span class="font-normal">Sofa</span>
+            Category: <span class="font-normal">{prodoctDetails.category}</span>
           </p>
           <p class="font-bold">
             SKU: <span class="font-normal">BE45VGTRK</span>
           </p>
 
           <p class="mt-4 text-4xl font-bold text-violet-900">
-            $450 <span class="text-xs text-gray-400 line-through">$550</span>
+            Rs. {prodoctDetails.price} <span class="text-xs text-gray-400 line-through">$550</span>
           </p>
 
           <p class="pt-5 text-sm leading-5 text-gray-500">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem
-            exercitationem voluptate sint eius ea assumenda provident eos
-            repellendus qui neque! Velit ratione illo maiores voluptates commodi
-            eaque illum, laudantium non!
+            {prodoctDetails.description}
           </p>
 
           <div class="mt-6">
@@ -330,15 +370,32 @@ export default function ProductDetails() {
         </table>
       </section>
 
-      <p class="mx-auto mt-10 mb-5 max-w-[1200px] px-5">RELATED PRODUCTS</p>
 
-      <section
-        class="container mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-4"
-      >
 
-        <ProductCard/>
+      {
+        (relatedProducts.length > 0)
+          ?
+          <>
+            <p class="mx-auto mt-10 mb-5 max-w-[1200px] px-5">RELATED PRODUCTS</p>
 
-      </section>
+            <section
+              class="container mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-4"
+            >
+              {
+                relatedProducts.map((v,i) => {
+                  return(
+                    <ProductCard key={i} data={v}/>
+                  )
+                })
+              }
+              
+
+            </section>
+          </>
+          :
+          ''
+      }
+
     </>
   )
 }

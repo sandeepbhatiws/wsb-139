@@ -8,8 +8,6 @@ export default function page() {
 
     const params = useParams();
 
-    
-
   return (
     <>
         {
