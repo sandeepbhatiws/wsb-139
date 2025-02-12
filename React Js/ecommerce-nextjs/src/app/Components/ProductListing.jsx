@@ -1,14 +1,22 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LeftSideListing from './LeftSideListing'
 import RightSideListing from './RightSideListing'
+import { useParams } from 'next/navigation';
 
 export default function ProductListing() {
 
-    const [allFilter, setAllFilter] = useState({
-        limit : 15
-    });
+    const params = useParams();
+
+    const [filterCategories , setFilterCategories] = useState([]);
+
+    useEffect(() => {
+        if(params.category_slug != undefined){
+            setFilterCategories(params.category_slug)
+        }
+    },[params.category_slug]);
+    
 
     return (
         <>
@@ -16,9 +24,9 @@ export default function ProductListing() {
                 class="container mx-auto flex-grow max-w-[1200px] border-b py-5 lg:flex lg:flex-row lg:py-10"
             >
                 
-                <LeftSideListing allFilter={allFilter} setAllFilter={setAllFilter}/>
+                <LeftSideListing filterCategories={filterCategories} setFilterCategories={setFilterCategories}/>
 
-                <RightSideListing allFilter={allFilter} setAllFilter={setAllFilter}/>
+                <RightSideListing filterCategories={filterCategories}/>
 
                 
             </section>

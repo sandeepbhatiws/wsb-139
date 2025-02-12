@@ -1,57 +1,71 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 
-export default function LeftSideListing() {
+export default function LeftSideListing({filterCategories , setFilterCategories}) {
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://wscubetech.co/ecommerce-api/categories.php')
+        .then((response) => {
+            setCategories(response.data.data);
+        })
+        .catch(() => {
+            toast.error('Something went wrong !!')
+        })
+
+    }, []);
+
+    const filterCategory = (slug) => {
+
+        if(filterCategories.includes(slug)){
+            var data = filterCategories.filter((v,i) => {
+            if(v != slug){
+                return v;
+            }
+            })
+
+            const finalData = [...data];
+            setFilterCategories(finalData);
+        } else {
+            const finalData = [...filterCategories, slug];
+
+            console.log(finalData);
+            setFilterCategories(finalData);
+        }
+    }
+
     return (
         <>
             <section class="hidden w-[300px] flex-shrink-0 px-4 lg:block">
                 <div class="flex border-b pb-5">
-                    <div class="w-full">
+                    <div class="w-full filter-height">
                         <p class="mb-3 font-medium">CATEGORIES</p>
 
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Bedroom</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(12)</p>
-                            </div>
-                        </div>
+                        {
+                            categories.map((v,i) => {
+                                return(
+                                    <div class="flex w-full justify-between">
+                                        <div class="flex justify-center items-center">
+                                            <input type="checkbox" id={v.slug} checked={ (filterCategories.includes(v.slug)) ? 'checked' : '' }  onClick={ () => filterCategory(v.slug) } />
+                                            <label class="ml-4" for={v.slug}>{v.name}</label>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500">(12)</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                        
 
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Sofa</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(15)</p>
-                            </div>
-                        </div>
-
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Office</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(14)</p>
-                            </div>
-                        </div>
-
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Outdoor</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(124)</p>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
                 <div class="flex border-b py-5">
-                    <div class="w-full">
+                    <div class="w-full filter-height">
                         <p class="mb-3 font-medium">BRANDS</p>
 
                         <div class="flex w-full justify-between">

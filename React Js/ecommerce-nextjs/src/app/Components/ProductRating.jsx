@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function ProductRating({rating}) {
 
-    console.log(rating);
+    // console.log(rating);
 
     var finalrating = '';
 

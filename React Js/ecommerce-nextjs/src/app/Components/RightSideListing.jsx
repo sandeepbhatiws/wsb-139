@@ -3,25 +3,43 @@ import ProductCard from './ProductCard';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import ProductLoading from './ProductLoading';
+import { useParams } from 'next/navigation';
+import { Pagination } from "flowbite-react";
 
-export default function RightSideListing({allFilter, setAllFilter}) {
+export default function RightSideListing({allFilter, filterCategories}) {
 
     const [products, setProducts] = useState([]);
     const [isLoader, setLoader] = useState(true);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState('');
+
+    const onPageChange = (page) => setCurrentPage(page);
+
+    const params = useParams();
+
     useEffect(() => {
         axios.get('https://wscubetech.co/ecommerce-api/products.php', {
-            params: allFilter
+            params: {
+                page : currentPage,
+                limit : 15,
+                categories : (filterCategories.length > 0) ? filterCategories.toString() :  (params.category_slug != undefined) ? params.category_slug[0] : '',
+                brands : '',
+                sorting : '',
+                price_from : '',
+                price_to : ''
+            }
         })
             .then((response) => {
                 setProducts(response.data.data);
+                setTotalPage(response.data.toal_pages);
                 setLoader(false);
             })
             .catch(() => {
                 toast.error('Something went wrong !!')
             })
 
-    }, []);
+    }, [params.category_slug,filterCategories, currentPage]);
 
     return (
         <>
@@ -120,6 +138,10 @@ export default function RightSideListing({allFilter, setAllFilter}) {
                                     )
                                 })
                             }
+
+                            <div className="mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-3">
+                                <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={onPageChange} />
+                            </div>
                         </section>
                         :
                         <section class="mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-3"> No Record Found !!</section>
