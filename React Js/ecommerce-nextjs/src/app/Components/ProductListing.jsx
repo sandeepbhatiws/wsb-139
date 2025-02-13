@@ -11,6 +11,8 @@ export default function ProductListing() {
 
     const [filterCategories , setFilterCategories] = useState([]);
 
+    const [currentPage, setCurrentPage] = useState(1);
+
     useEffect(() => {
         if(params.category_slug != undefined){
             setFilterCategories(params.category_slug)
@@ -24,9 +26,9 @@ export default function ProductListing() {
                 class="container mx-auto flex-grow max-w-[1200px] border-b py-5 lg:flex lg:flex-row lg:py-10"
             >
                 
-                <LeftSideListing filterCategories={filterCategories} setFilterCategories={setFilterCategories}/>
+                <LeftSideListing filterCategories={filterCategories} setFilterCategories={setFilterCategories}  setCurrentPage={setCurrentPage}/>
 
-                <RightSideListing filterCategories={filterCategories}/>
+                <RightSideListing filterCategories={filterCategories} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
 
                 
             </section>

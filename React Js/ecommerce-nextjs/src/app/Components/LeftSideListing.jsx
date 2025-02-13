@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
-export default function LeftSideListing({filterCategories , setFilterCategories}) {
+export default function LeftSideListing({filterCategories , setFilterCategories, setCurrentPage}) {
 
     const [categories, setCategories] = useState([]);
 
@@ -34,6 +34,8 @@ export default function LeftSideListing({filterCategories , setFilterCategories}
             console.log(finalData);
             setFilterCategories(finalData);
         }
+
+        setCurrentPage(1)
     }
 
     return (

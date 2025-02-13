@@ -6,12 +6,12 @@ import ProductLoading from './ProductLoading';
 import { useParams } from 'next/navigation';
 import { Pagination } from "flowbite-react";
 
-export default function RightSideListing({allFilter, filterCategories}) {
+export default function RightSideListing({allFilter, filterCategories, currentPage, setCurrentPage}) {
 
     const [products, setProducts] = useState([]);
     const [isLoader, setLoader] = useState(true);
 
-    const [currentPage, setCurrentPage] = useState(1);
+    
     const [totalPage, setTotalPage] = useState('');
 
     const onPageChange = (page) => setCurrentPage(page);
