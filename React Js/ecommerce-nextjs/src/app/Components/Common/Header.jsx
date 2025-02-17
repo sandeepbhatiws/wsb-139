@@ -2,6 +2,7 @@
 import axios from 'axios';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function Header() {
@@ -24,6 +25,8 @@ export default function Header() {
     const openMenu = () => {
         setMenuOpen(!menuOpen);
     }
+
+    const cartItems = useSelector((state) => state.cart.cart_value)
 
     return (
         <>
@@ -127,7 +130,7 @@ export default function Header() {
                             />
                         </svg>
 
-                        <p class="text-xs">Cart</p>
+                        <p class="text-xs">Cart ({ cartItems.length })</p>
                     </Link>
 
                     <a
