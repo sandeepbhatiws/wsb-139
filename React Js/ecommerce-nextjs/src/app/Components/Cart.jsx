@@ -1,6 +1,23 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { decrementByQuantity, deleteCart, incrementByQuantity } from '../Redux Toolkit/cartslice';
 
 export default function Cart() {
+
+  const cartItems = useSelector((state) => state.cart.cart_value)
+
+  const dispatch = useDispatch();
+
+  let [total, setTotal] = useState(0);
+  useEffect(() => {
+    var sum = 0;
+    cartItems.forEach((v) => {
+      sum += v.price * v.quantity
+    })
+    setTotal(sum);
+  }, [cartItems])
+
   return (
     <div>
       <section
@@ -74,7 +91,7 @@ export default function Cart() {
 
         <!-- Desktop cart table  --> */}
         <section
-          class="hidden h-[600px] w-full max-w-[1200px] grid-cols-1 gap-3 px-5 pb-10 md:grid"
+          class="hidden w-full max-w-[1200px] grid-cols-1 gap-3 px-5 pb-10 md:grid"
         >
           <table class="table-fixed">
             <thead class="h-16 bg-neutral-100">
@@ -88,56 +105,66 @@ export default function Cart() {
             </thead>
             <tbody>
 
-              <tr class="h-[100px] border-b">
-                <td class="align-middle">
-                  <div class="flex">
-                    <img
-                      class="w-[90px]"
-                      src="/images/bedroom.png"
-                      alt="bedroom image"
-                    />
-                    <div class="ml-3 flex flex-col justify-center">
-                      <p class="text-xl font-bold">ITALIAN BED</p>
-                      <p class="text-sm text-gray-400">Size: XL</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="mx-auto text-center">&#36;320</td>
-                <td class="align-middle">
-                  <div class="flex items-center justify-center">
-                    <button
-                      class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
-                    >
-                      &minus;
-                    </button>
-                    <div
-                      class="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500"
-                    >
-                      1
-                    </div>
-                    <button
-                      class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
-                    >
-                      &#43;
-                    </button>
-                  </div>
-                </td>
-                <td class="mx-auto text-center">&#36;320</td>
-                <td class="align-middle">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="m-0 h-5 w-5 cursor-pointer"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </td>
-              </tr>
+              {
+                (cartItems.length > 0)
+                  ?
+                  cartItems.map((v, i) => {
+                    return (
+                      <tr class="h-[100px] border-b">
+                        <td class="align-middle">
+                          <div class="flex">
+                            <img
+                              class="w-[90px]"
+                              src={v.image}
+                              alt={v.name}
+                            />
+                            <div class="ml-3 flex flex-col justify-center">
+                              <p class="text-xl font-bold">{v.name}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="mx-auto text-center">&#36;{v.price}</td>
+                        <td class="align-middle">
+                          <div class="flex items-center justify-center">
+                            <button onClick={ () => dispatch(incrementByQuantity(v.id)) }
+                              class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+                            >
+                              &minus;
+                            </button>
+                            <div
+                              class="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500"
+                            >
+                              {v.quantity}
+                            </div>
+                            <button onClick={ () => dispatch(decrementByQuantity(v.id)) }
+                              class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+                            >
+                              &#43;
+                            </button>
+                          </div>
+                        </td>
+                        <td class="mx-auto text-center">&#36;{v.price * v.quantity}</td>
+                        <td class="align-middle">
+                          <svg onClick={ () => dispatch(deleteCart(v.id)) }
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="m-0 h-5 w-5 cursor-pointer"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </td>
+                      </tr>
+                    )
+                  })
+                  :
+                  'No Record Found'
+              }
+
             </tbody>
           </table>
         </section>
@@ -152,7 +179,7 @@ export default function Cart() {
 
               <div class="flex justify-between border-b py-5">
                 <p>Subtotal</p>
-                <p>$1280</p>
+                <p>${ total }</p>
               </div>
 
               <div class="flex justify-between border-b py-5">
@@ -162,7 +189,7 @@ export default function Cart() {
 
               <div class="flex justify-between py-5">
                 <p>Total</p>
-                <p>$1280</p>
+                <p>${ total }</p>
               </div>
 
               <a href="checkout-address.html">

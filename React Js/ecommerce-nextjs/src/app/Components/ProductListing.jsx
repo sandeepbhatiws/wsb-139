@@ -10,6 +10,7 @@ export default function ProductListing() {
     const params = useParams();
 
     const [filterCategories , setFilterCategories] = useState([]);
+    const [filterBrands , setFilterBrands] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -26,9 +27,9 @@ export default function ProductListing() {
                 class="container mx-auto flex-grow max-w-[1200px] border-b py-5 lg:flex lg:flex-row lg:py-10"
             >
                 
-                <LeftSideListing filterCategories={filterCategories} setFilterCategories={setFilterCategories}  setCurrentPage={setCurrentPage}/>
+                <LeftSideListing filterCategories={filterCategories} setFilterCategories={setFilterCategories}  setCurrentPage={setCurrentPage} filterBrands={filterBrands} setFilterBrands={setFilterBrands}/>
 
-                <RightSideListing filterCategories={filterCategories} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                <RightSideListing filterCategories={filterCategories} currentPage={currentPage} setCurrentPage={setCurrentPage} filterBrands={filterBrands}/>
 
                 
             </section>

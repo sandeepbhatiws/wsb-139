@@ -2,14 +2,26 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
-export default function LeftSideListing({filterCategories , setFilterCategories, setCurrentPage}) {
+export default function LeftSideListing({filterCategories , setFilterCategories, setCurrentPage, filterBrands , setFilterBrands}) {
 
     const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
 
     useEffect(() => {
         axios.get('https://wscubetech.co/ecommerce-api/categories.php')
         .then((response) => {
             setCategories(response.data.data);
+        })
+        .catch(() => {
+            toast.error('Something went wrong !!')
+        })
+
+    }, []);
+
+    useEffect(() => {
+        axios.get('https://wscubetech.co/ecommerce-api/brands.php')
+        .then((response) => {
+            setBrands(response.data.data);
         })
         .catch(() => {
             toast.error('Something went wrong !!')
@@ -33,6 +45,27 @@ export default function LeftSideListing({filterCategories , setFilterCategories,
 
             console.log(finalData);
             setFilterCategories(finalData);
+        }
+
+        setCurrentPage(1)
+    }
+
+    const filterBrand = (slug) => {
+
+        if(filterBrands.includes(slug)){
+            var data = filterBrands.filter((v,i) => {
+                if(v != slug){
+                    return v;
+                }
+                })
+
+            const finalData = [...data];
+            setFilterBrands(finalData);
+        } else {
+            const finalData = [...filterBrands, slug];
+
+            console.log(finalData);
+            setFilterBrands(finalData);
         }
 
         setCurrentPage(1)
@@ -70,45 +103,21 @@ export default function LeftSideListing({filterCategories , setFilterCategories,
                     <div class="w-full filter-height">
                         <p class="mb-3 font-medium">BRANDS</p>
 
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">APEX</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(12)</p>
-                            </div>
-                        </div>
-
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Call of SOFA</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(15)</p>
-                            </div>
-                        </div>
-
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Puff B&G</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(14)</p>
-                            </div>
-                        </div>
-
-                        <div class="flex w-full justify-between">
-                            <div class="flex justify-center items-center">
-                                <input type="checkbox" />
-                                <p class="ml-4">Fornighte</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500">(124)</p>
-                            </div>
-                        </div>
+                        {
+                            brands.map((v,i) => {
+                                return(
+                                    <div class="flex w-full justify-between">
+                                        <div class="flex justify-center items-center">
+                                            <input type="checkbox" id={v.slug} checked={ (filterBrands.includes(v.slug)) ? 'checked' : '' }  onClick={ () => filterBrand(v.slug) } />
+                                            <label class="ml-4" for={v.slug}>{v.name}</label>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500">(12)</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
 

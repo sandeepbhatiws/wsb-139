@@ -6,7 +6,7 @@ import ProductLoading from './ProductLoading';
 import { useParams } from 'next/navigation';
 import { Pagination } from "flowbite-react";
 
-export default function RightSideListing({allFilter, filterCategories, currentPage, setCurrentPage}) {
+export default function RightSideListing({allFilter, filterCategories, currentPage, setCurrentPage, filterBrands}) {
 
     const [products, setProducts] = useState([]);
     const [isLoader, setLoader] = useState(true);
@@ -24,7 +24,7 @@ export default function RightSideListing({allFilter, filterCategories, currentPa
                 page : currentPage,
                 limit : 15,
                 categories : (filterCategories.length > 0) ? filterCategories.toString() :  (params.category_slug != undefined) ? params.category_slug[0] : '',
-                brands : '',
+                brands : filterBrands.toString(),
                 sorting : '',
                 price_from : '',
                 price_to : ''
@@ -39,7 +39,7 @@ export default function RightSideListing({allFilter, filterCategories, currentPa
                 toast.error('Something went wrong !!')
             })
 
-    }, [params.category_slug,filterCategories, currentPage]);
+    }, [params.category_slug,filterCategories, currentPage, filterBrands]);
 
     return (
         <>
