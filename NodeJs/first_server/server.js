@@ -1,87 +1,91 @@
-const http = require('http');
+const express = require('express');
+const server = express();
 const { categories, products, productDetails } = require('./apiData');
 
-// http.createServer(() => {
+// parse requests of content-type - application/json
+server.use(express.json());
 
-// })
-// .listen('8001');
+// parse requests of content-type - application/x-www-form-urlencoded
+server.use(express.urlencoded({ extended: true }));
 
 
-const server = http.createServer((request,response) => {
+server.get('', (request, response) => {
+    response.send('Server is working fine !');
+})
 
-    if(request.url == '/'){
-        response.end('<h1>Server is working Fine.</h1>');
-    } else if(request.url == '/add-category' && request.method == 'GET'){
-        const data = {
-            status : true,  // true or false
-            message : 'Message Goes Here..',
-            data : 'response'
+server.get('/categories', (request, response) => {
+    const data = categories;
+
+    if (data.length > 0) {
+        const results = {
+            status: true,
+            message: 'Record Fetch Successfully !!',
+            data: data
         }
 
-        response.end(JSON.stringify(data));
-
-    } else if(request.url == '/categories' && request.method == 'GET'){
-        const data = categories;
-
-        if(data.length > 0){
-            const results = {
-                status : true,
-                message : 'Record Fetch Successfully !!',
-                data : data
-            }
-
-            response.end(JSON.stringify(results));
-        } else {
-            const results = {
-                status : false,
-                message : 'No Record Found !!',
-                data : []
-            }
-            response.end(JSON.stringify(results));
-        }
-    } else if(request.url == '/products' && request.method == 'GET'){
-        const data = products;
-
-        if(data.length > 0){
-            const results = {
-                status : true,
-                message : 'Record Fetch Successfully !!',
-                data : data
-            }
-
-            response.end(JSON.stringify(results));
-        } else {
-            const results = {
-                status : false,
-                message : 'No Record Found !!',
-                data : []
-            }
-            response.end(JSON.stringify(results));
-        }
-    } else if(request.url == '/product-details' && request.method == 'GET'){
-        const data = productDetails;
-
-        if(data){
-            const results = {
-                status : true,
-                message : 'Record Fetch Successfully !!',
-                data : data
-            }
-
-            response.end(JSON.stringify(results));
-        } else {
-            const results = {
-                status : false,
-                message : 'No Record Found !!',
-                data : null
-            }
-            response.end(JSON.stringify(results));
-        }
+        response.send(results);
     } else {
-        response.end('<h1>Page Not Found.</h1>');
+        const results = {
+            status: false,
+            message: 'No Record Found !!',
+            data: []
+        }
+        response.send(results);
     }
-});
+})
 
-server.listen('8001',() => {
-    console.log('Server is working Fine.');
+server.get('/products', (request, response) => {
+    const data = products;
+
+    if (data.length > 0) {
+        const results = {
+            status: true,
+            message: 'Record Fetch Successfully !!',
+            data: data
+        }
+
+        response.send(results);
+    } else {
+        const results = {
+            status: false,
+            message: 'No Record Found !!',
+            data: []
+        }
+        response.send(results);
+    }
+})
+
+server.post('/product-details', (request, response) => {
+
+    // console.log(request.query);
+
+    console.log(request.body);
+
+    const data = productDetails;
+
+    if (data) {
+        const results = {
+            status: true,
+            message: 'Record Fetch Successfully !!',
+            data: data,
+            info : request.body
+        }
+
+        response.send(results);
+    } else {
+        const results = {
+            status: false,
+            message: 'No Record Found !!',
+            data: null
+        }
+        response.send(results);
+    }
+})
+
+server.get('*', (request, response) => {
+    response.send('Page Not Found !');
+})
+
+server.listen(5000, () => {
+    console.log('Server is working fine !')
 });
