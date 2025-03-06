@@ -20,6 +20,7 @@ server.get('/', (request, response) => {
 });
 
 require('./app/routes/admin/default.routes.js')(server);
+require('./app/routes/admin/brands.routes.js')(server);
 
 mongoose.connect('mongodb://127.0.0.1:27017/ecommerce_new')
 .then(() => {
