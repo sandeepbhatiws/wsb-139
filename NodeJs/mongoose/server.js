@@ -19,8 +19,13 @@ server.get('/', (request, response) => {
     response.send('Server is working fine !!');
 });
 
+// Admin URLS
 require('./app/routes/admin/default.routes.js')(server);
 require('./app/routes/admin/brands.routes.js')(server);
+
+
+// Website URLS
+require('./app/routes/website/brands.routes.js')(server);
 
 mongoose.connect('mongodb://127.0.0.1:27017/ecommerce_new')
 .then(() => {
