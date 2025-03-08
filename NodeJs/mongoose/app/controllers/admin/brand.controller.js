@@ -5,6 +5,7 @@ exports.create = async(request,response) => {
 
     const data = new brandModal({
         name : request.body.name,
+        price : request.body.price,
         order : request.body.order ? request.body.order : 0
     })
 
@@ -36,7 +37,7 @@ exports.create = async(request,response) => {
 
 // For View 
 exports.index = async(request,response) => {
-    await brandModal.find({ deleted_at : null }).select('name order status')
+    await brandModal.find({ deleted_at : null }).select('name price order status')
     .then((result) => {
         if(result.length > 0){
             const resp = {
@@ -139,6 +140,7 @@ exports.update = async(request,response) => {
         {
             $set : {
                 name : request.body.name,
+                price : request.body.price,
                 order : request.body.order ? request.body.order : 0
             }
         }

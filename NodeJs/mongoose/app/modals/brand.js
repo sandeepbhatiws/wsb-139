@@ -7,6 +7,10 @@ const brandSchema = new mongoose.Schema({
         maxLength : 15,
         required : [true, 'Name is required.'],
     },
+    price : {
+        type : Number,
+        default : 0
+    },
     status : {
         type : Boolean,
         default : 1

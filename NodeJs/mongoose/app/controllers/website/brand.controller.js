@@ -2,7 +2,17 @@ const brandModal = require("../../modals/brand");
 
 // For View 
 exports.index = async(request,response) => {
-    await brandModal.find({ status : true, deleted_at : null }).select('name order status')
+    await brandModal.find(
+        { 
+            // price : {
+            //     $gte : request.body.price
+            // },
+            status : true, 
+            deleted_at : null 
+        }).select('name price order status')
+
+
+
     .then((result) => {
         if(result.length > 0){
             const resp = {
