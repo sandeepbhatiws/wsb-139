@@ -1,9 +1,12 @@
 import React from 'react'
 import { RiProfileFill, RiProfileLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
 export default function Header() {
     return (
+        <>
+        <ToastContainer/>
         <header className='border-b-2'>
             <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
@@ -30,6 +33,7 @@ export default function Header() {
                 </div>
             </nav>
         </header>
+        </>
     )
 }
 

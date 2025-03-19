@@ -9,19 +9,13 @@ import Breadcrumb from "../../common/Breadcrumb";
 import $ from "jquery";
 import "dropify/dist/css/dropify.min.css";
 import "dropify/dist/js/dropify.min.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useNavigation, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Meterials() {
-  useEffect(() => {
-    $(".dropify").dropify({
-      messages: {
-        default: "Drag and drop ",
-        replace: "Drag and drop ",
-        remove: "Remove",
-        error: "Oops, something went wrong"
-      }
-    });
-  }, []);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -30,12 +24,29 @@ export default function Meterials() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    axios.post('http://localhost:5000/api/admin/materials/add', {
+      name : data.name,
+      order : data.order,
+    })
+    .then((result) => {
+      if(result.data.status == true){
+        toast.success(result.data.message);
+        navigate('/material/view');
+      } else {
+        toast.error(result.data.message);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error('Something went wrong !!');
+    })
   };
 
   // update work
   const [updateIdState,setUpdateIdState]=useState(false)
+
   let updateId=useParams().id
+  
   useEffect(()=>{
     if(updateId==undefined){
       setUpdateIdState(false)
@@ -63,16 +74,16 @@ export default function Meterials() {
                     htmlFor="Meterial"
                     className="block  text-md font-medium text-gray-900"
                   >
-                    Category Name
+                    Material Name
                   </label>
                   <input
                     type="text"
-                    {...register("Meterial", { required: "Meterial name is required" })}
+                    {...register("name", { required: "Meterial name is required" })}
                     id="Meterial"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                     placeholder="Meterial Name"
                   />
-                  {errors.Meterial && <p className="text-red-500">{errors.Meterial.message}</p>}
+                  {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                 </div>
                 <div className="mb-5">
                   <label
