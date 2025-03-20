@@ -36,11 +36,18 @@ exports.create = async(request,response) => {
 
 // For View 
 exports.index = async(request,response) => {
-    await materialModal.find(
-        {
-            deleted_at : null
-        }
-    )
+
+    var condition = {
+        deleted_at : null
+    }
+
+    if(request.body.name != '' && request.body.name != undefined){
+        // var nameRegex = new RegExp("^" + request.body.name);
+        var nameRegex = new RegExp(request.body.name,"i");
+        condition.name = nameRegex;
+    }
+    
+    await materialModal.find(condition)
     .select('name status order')
     .sort(
         {

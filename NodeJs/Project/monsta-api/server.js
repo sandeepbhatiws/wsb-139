@@ -25,6 +25,7 @@ require('./app/routes/admin/material.routes.js')(server);
 
 
 // Website URLS
+require('./app/routes/website/material.routes.js')(server);
 
 server.get('*', (request, response) => {
     response.send('404 Page not found !!');
