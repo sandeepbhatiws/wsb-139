@@ -1,15 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../common/Breadcrumb'
 import { Link } from 'react-router-dom';
 import { MdFilterAltOff, MdModeEdit, MdModeEditOutline } from 'react-icons/md';
 import { CiEdit } from 'react-icons/ci';
 import { FaFilter } from 'react-icons/fa';
-// import { MdModeEditOutline } from "react-icons/md";
+import axios from 'axios'
 
 export default function ViewCategory() {
-  // let [orderModal, setOrderModal] = useState(false);
 
+
+  // let [orderModal, setOrderModal] = useState(false);\
   let [activeFilter, setactiveFilter] = useState(true);
+
+  let [colorData, setColorData] = useState([]);
+  let [searchName, setSearchName] = useState('');
+
+  useEffect(() => {
+    axios.post('http://localhost:5000/api/admin/colors/view', {
+      name: searchName
+    })
+      .then((result) => {
+        setColorData(result.data.data);
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+
+  }, [searchName]);
+
+  const search = (event) => {
+    event.preventDefault();
+    console.log(event.target.name.value);
+    setSearchName(event.target.name.value);
+  }
+
+
   return (
     <section className="w-full">
 
@@ -102,39 +127,60 @@ export default function ViewCategory() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <td class="w-4 p-4">
-                        <div class="flex items-center">
-                          <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                        </div>
-                      </td>
-                      <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    {
+                      (colorData.length > 0)
 
-                        <div class="py-4">
-                          <div class="text-base font-semibold">Red</div>
+                        ?
+                        colorData.map((v, i) => {
+                          return (
+                            <tr key={i} class="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 hover:bg-gray-50">
+                              <td class="p-4 w-4">
+                                <div class="flex items-center">
+                                  <input id="checkbox-table-search-1" type="checkbox" class="bg-gray-100 border-gray-300 h-4 rounded-sm text-blue-600 w-4 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800 dark:ring-offset-gray-800 focus:ring-2 focus:ring-blue-500" />
+                                  <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                </div>
+                              </td>
+                              <td class="px-6 py-4">
+                                {v.name}
+                              </td>
+                              <td class="py-4">
+                                {v.code}
+                              </td>
 
-                        </div>
-                      </th>
-                      <td class=" py-4">
-                        #er33rv
-                      </td>
-                      <td class=" py-4">
-                        1
-                      </td>
-                      <td class=" py-4">
+                              <td class="px-6 py-4">
+                                {v.order}
+                              </td>
+                              <td class="py-4">
+                                {
+                                  v.status
+                                    ?
+                                    <button type="button" class="bg-gradient-to-r rounded-lg text-center text-sm text-white dark:focus:ring-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium from-green-400 hover:bg-gradient-to-br mb-2 me-2 px-5 py-1.5 to-green-600 via-green-500">Active</button>
+                                    :
+                                    <button type="button" class="bg-gradient-to-r rounded-lg text-center text-sm text-white dark:focus:ring-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium from-red-400 hover:bg-gradient-to-br mb-2 me-2 px-5 py-1.5 to-red-600 via-red-500">Deactive</button>
 
-                        <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Active</button>
-                      </td>
-                      <td class=" py-4">
+                                }
 
-                        <Link to={`/color/update/${123}`} >
-                          <div className="rounded-[50%] w-[40px] h-[40px] flex items-center justify-center text-white bg-blue-700  border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <MdModeEdit className='text-[18px]' />
-                          </div>
-                        </Link>
-                      </td>
-                    </tr>
+                              </td>
+                              <td class="py-4">
+
+                                <Link to={`/color/update/${v._id}`} >
+                                  <div className="flex bg-blue-700 border border-blue-700 h-[40px] justify-center rounded-[50%] text-white w-[40px] dark:bg-blue-600 dark:focus:ring-blue-800 dark:hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 hover:bg-blue-800 items-center">
+                                    <MdModeEdit className='text-[18px]' />
+                                  </div>
+                                </Link>
+                              </td>
+                            </tr>
+                          )
+                        })
+
+
+                        :
+                        <tr class="bg-white border-gray-200 text-center dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 hover:bg-gray-50">
+                          <td class="p-4 w-4" colSpan={6}>
+                            No Record Found
+                          </td>
+                        </tr>
+                    }
 
 
 

@@ -1,26 +1,68 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../common/Breadcrumb";
 import { ChromePicker } from "react-color";
-import { Link, useParams } from "react-router-dom";
+import { Link,useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function AddColor() {
+  const navigate = useNavigate();
+  let [colorDetails, setColorDetails] = useState('');
+
   const [color, setColor] = useState("#000000");
-  const [colorName, setColorName] = useState("");
-  const [colorOrder, setColorOrder] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+
+    data.code = color;
+
+    if(!updateIdState){
+      axios.post('http://localhost:5000/api/admin/colors/add', data)
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/color/view');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Something went wrong !!');
+      })
+    }  else {
+      axios.put(`http://localhost:5000/api/admin/colors/update/${ updateId }`, data)
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/color/view');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Something went wrong !!');
+      })
+    }
+  };
 
   const handleColorChange = (newColor) => {
     setColor(newColor.hex);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      colorName,
-      color,
-      colorOrder,
-    });
-    alert(`Color Added: ${colorName} - ${color}`);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(e);
+  //   // alert(`Color Added: ${colorName} - ${color}`);
+  // };
 
   // update work
     const [updateIdState,setUpdateIdState]=useState(false)
@@ -30,6 +72,20 @@ export default function AddColor() {
         setUpdateIdState(false)
       }
       else{
+
+        axios.post(`http://localhost:5000/api/admin/colors/details/${ updateId }`)
+        .then((result) => {
+          if(result.data.status == true){
+            setColor(result.data.data.code)
+            setColorDetails(result.data.data);
+          } else {
+            toast.error(result.data.message);
+          }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })
+
         setUpdateIdState(true)
       }
     },[updateId])
@@ -63,9 +119,9 @@ export default function AddColor() {
           <h3 className="text-[20px] font-semibold bg-slate-100 py-2 px-3 rounded-t-md border border-slate-400">
             Add Colors
           </h3>
-          <form 
+          <form  autoComplete="off"
             className="p-3 border border-t-0 rounded-b-md border-slate-400"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             {/* Color Name */}
             <div className="mb-5">
@@ -77,14 +133,14 @@ export default function AddColor() {
               </label>
               <input
                 type="text"
+                {...register("name", { required: "Color name is required" })}
                 id="colorName"
-                name="colorName"
-                value={colorName}
-                onChange={(e) => setColorName(e.target.value)}
+                name="name"
+                defaultValue={ colorDetails.name }
                 className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                 placeholder="Enter Color Name"
-                required
               />
+              {errors.name && <p className="text-red-500">{errors.name.message}</p>}
             </div>
 
             {/* Color Picker */}
@@ -104,6 +160,8 @@ export default function AddColor() {
               </div>
             </div>
 
+            <input type="hidden" name="code" value={color} />
+
             {/* Color Order */}
             <div className="mb-5">
               <label
@@ -113,15 +171,15 @@ export default function AddColor() {
                 Order
               </label>
               <input
+                {...register("order", { required: "Color order is required" })}
                 type="number"
                 id="colorOrder"
-                name="colorOrder"
-                value={colorOrder}
-                onChange={(e) => setColorOrder(e.target.value)}
+                name="order"
+                defaultValue={ colorDetails.order }
                 className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                 placeholder="Enter Order"
-                required
               />
+              {errors.order && <p className="text-red-500">{errors.order.message}</p>}
             </div>
 
             {/* Submit Button */}
