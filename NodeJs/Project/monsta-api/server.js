@@ -23,6 +23,7 @@ server.get('/', (request, response) => {
 require('./app/routes/admin/default.routes.js')(server);
 require('./app/routes/admin/material.routes.js')(server);
 require('./app/routes/admin/color.routes.js')(server);
+require('./app/routes/admin/parentCategory.routes.js')(server);
 
 
 // Website URLS
