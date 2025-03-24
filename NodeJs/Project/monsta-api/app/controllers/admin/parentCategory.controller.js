@@ -1,155 +1,156 @@
 const parentCategoryModal = require("../../modals/parentCategory");
 
 // For Add Data
-exports.create = async(request,response) => {
+exports.create = async (request, response) => {
 
-    console.log(request.body);
-    console.log(request.files);
+    const saveData = {
+        order: request.body.order ? request.body.order : 0
+    };
 
-
-    const resp = {
-        status : true,
-        message : 'Record inserted successfully !!',
-        data : request.body,
+    if(request.body.name){
+        saveData.name = request.body.name;
     }
 
-    response.send(resp);
+    if(request.file){
+        saveData.image = request.file.filename;
+    }
 
-    const data = new parentCategoryModal({
-        name : request.body.name,
-        order : request.body.order ? request.body.order : 0
-    })
+    const data = new parentCategoryModal(saveData)
 
     await data.save()
-    .then((result) => {
-        const resp = {
-            status : true,
-            message : 'Record inserted successfully !!',
-            data : result,
-        }
-        response.send(resp);
-    })
-    .catch((error) => {
-        var errormessages = [];
+        .then((result) => {
+            const resp = {
+                status: true,
+                message: 'Record inserted successfully !!',
+                data: result,
+            }
+            response.send(resp);
+        })
+        .catch((error) => {
+            var errormessages = [];
 
-        for(var value in error.errors){
-            errormessages.push(error.errors[value].message);
-        }
+            for (var value in error.errors) {
+                errormessages.push(error.errors[value].message);
+            }
 
-        const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : errormessages
-        }
-        response.send(resp);
-    })
+            const resp = {
+                status: false,
+                message: 'Something went wrong !!',
+                data: '',
+                error: errormessages
+            }
+            response.send(resp);
+        })
 }
 
 // For View 
-exports.index = async(request,response) => {
+exports.index = async (request, response) => {
 
     var condition = {
-        deleted_at : null
+        deleted_at: null
     }
 
-    if(request.body.name != '' && request.body.name != undefined){
+    if (request.body.name != '' && request.body.name != undefined) {
         // var nameRegex = new RegExp("^" + request.body.name);
-        var nameRegex = new RegExp(request.body.name,"i");
+        var nameRegex = new RegExp(request.body.name, "i");
         condition.name = nameRegex;
     }
-    
+
     await parentCategoryModal.find(condition)
-    .select('name status order')
-    .sort(
-        {
-             _id : 'desc'
-        }
-    )
-    .then((result) => {
-        if(result.length > 0){
+        .select('name image status order')
+        .sort(
+            {
+                _id: 'desc'
+            }
+        )
+        .then((result) => {
+            if (result.length > 0) {
+                const resp = {
+                    status: true,
+                    message: 'Record found successfully !!',
+                    data: result,
+                }
+                response.send(resp);
+            } else {
+                const resp = {
+                    status: false,
+                    message: 'No record found !!',
+                    data: [],
+                }
+                response.send(resp);
+            }
+        })
+        .catch((error) => {
             const resp = {
-                status : true,
-                message : 'Record found successfully !!',
-                data : result,
+                status: false,
+                message: 'Something went wrong !!',
+                data: '',
+                error: error
             }
             response.send(resp);
-        } else {
-            const resp = {
-                status : false,
-                message : 'No record found !!',
-                data : [],
-            }
-            response.send(resp);
-        }
-    })
-    .catch((error) => {
-        const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : error
-        }
-        response.send(resp);
-    })
+        })
 }
 
 // For Details
-exports.details = async(request,response) => {
+exports.details = async (request, response) => {
     await parentCategoryModal.findById(request.params.id)
-    .then((result) => {
-        if(result != null){
+        .then((result) => {
+            if (result != null) {
+                const resp = {
+                    status: true,
+                    message: 'Record found successfully !!',
+                    data: result,
+                }
+                response.send(resp);
+            } else {
+                const resp = {
+                    status: false,
+                    message: 'No record found !!',
+                    data: [],
+                }
+                response.send(resp);
+            }
+        })
+        .catch((error) => {
             const resp = {
-                status : true,
-                message : 'Record found successfully !!',
-                data : result,
+                status: false,
+                message: 'Something went wrong !!',
+                data: '',
+                error: error
             }
             response.send(resp);
-        } else {
-            const resp = {
-                status : false,
-                message : 'No record found !!',
-                data : [],
-            }
-            response.send(resp);
-        }
-    })
-    .catch((error) => {
-        const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : error
-        }
-        response.send(resp);
-    })
+        })
 }
 
 // For Update
-exports.update = async(request,response) => {
+exports.update = async (request, response) => {
 
     var condition = {};
 
-    if(request.body.name){
+    if (request.body.name) {
         condition.name = request.body.name;
     }
 
-    if(request.body.order){
+    if(request.file){
+        condition.image = request.file.filename;
+    }
+
+    if (request.body.order) {
         condition.order = request.body.order;
     }
 
     await parentCategoryModal.updateOne(
         {
-            _id : request.params.id
+            _id: request.params.id
         },
         {
-            $set : condition
+            $set: condition
         }
-    ).then((result) =>{
+    ).then((result) => {
         var resp = {
-            status : true,
-            message : 'Record update successfully !!',
-            data : result
+            status: true,
+            message: 'Record update successfully !!',
+            data: result
         }
 
         response.send(resp);
@@ -157,39 +158,42 @@ exports.update = async(request,response) => {
     }).catch((error) => {
         var errormessages = [];
 
-        for(var value in error.errors){
+        for (var value in error.errors) {
             console.log(value);
             errormessages.push(error.errors[value].message);
         }
 
         const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : errormessages
+            status: false,
+            message: 'Something went wrong !!',
+            data: '',
+            error: errormessages
         }
         response.send(resp);
     })
 }
 
 // For Delete
-exports.destroy = async(request,response) => {
+exports.destroy = async (request, response) => {
+
+    console.log(request.body.ids)
+
     await parentCategoryModal.updateMany(
         {
-            _id : {
-                $in : request.body.ids
-            } 
+            _id: {
+                $in: request.body.ids
+            }
         },
         {
-            $set : {
-                deleted_at : Date.now(),
+            $set: {
+                deleted_at: Date.now(),
             }
         }
-    ).then((result) =>{
+    ).then((result) => {
         var resp = {
-            status : true,
-            message : 'Record deleted successfully !!',
-            data : result
+            status: true,
+            message: 'Record deleted successfully !!',
+            data: result
         }
 
         response.send(resp);
@@ -199,37 +203,46 @@ exports.destroy = async(request,response) => {
         console.log(error);
         var errormessages = [];
 
-        for(var value in error.errors){
+        for (var value in error.errors) {
             console.log(value);
             errormessages.push(error.errors[value].message);
         }
 
         const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : errormessages
+            status: false,
+            message: 'Something went wrong !!',
+            data: '',
+            error: errormessages
         }
         response.send(resp);
     })
 }
 
 // For Change Status
-exports.changeStatus = async(request,response) => {
-    await parentCategoryModal.updateOne(
+exports.changeStatus = async (request, response) => {
+    await parentCategoryModal.updateMany(
         {
-            _id : request.params.id
+            _id: { $in: request.body.id },
         },
-        {
-            $set : {
-                deleted_at : Date.now(),
-            }
-        }
-    ).then((result) =>{
+        [
+            {
+                $set: {
+                    status: {
+                        $switch: {
+                            branches: [
+                                { case: { $eq: ["$status", 0] }, then: 1 },
+                                { case: { $eq: ["$status", 1] }, then: 0 },
+                            ],
+                        },
+                    },
+                },
+            },
+        ]
+    ).then((result) => {
         var resp = {
-            status : true,
-            message : 'Record deleted successfully !!',
-            data : result
+            status: true,
+            message: 'Change status successfully !!',
+            data: result
         }
 
         response.send(resp);
@@ -237,16 +250,16 @@ exports.changeStatus = async(request,response) => {
     }).catch((error) => {
         var errormessages = [];
 
-        for(var value in error.errors){
+        for (var value in error.errors) {
             console.log(value);
             errormessages.push(error.errors[value].message);
         }
 
         const resp = {
-            status : false,
-            message : 'Something went wrong !!',
-            data : '',
-            error : errormessages
+            status: false,
+            message: 'Something went wrong !!',
+            data: '',
+            error: errormessages
         }
         response.send(resp);
     })
