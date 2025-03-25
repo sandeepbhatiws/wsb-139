@@ -5,6 +5,7 @@ import { MdFilterAltOff, MdModeEdit, MdModeEditOutline } from 'react-icons/md';
 import { CiEdit } from 'react-icons/ci';
 import { FaFilter } from 'react-icons/fa';
 import axios from 'axios'
+import { toast } from 'react-toastify';
 
 export default function ViewCategory() {
 

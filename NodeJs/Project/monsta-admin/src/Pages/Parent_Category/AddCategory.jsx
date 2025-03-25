@@ -4,7 +4,9 @@ import Breadcrumb from "../../common/Breadcrumb";
 import $ from "jquery";
 import "dropify/dist/css/dropify.min.css";
 import "dropify/dist/js/dropify.min.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import axios, { toFormData } from "axios";
+import { toast } from "react-toastify";
 
 export default function AddCategory() {
   useEffect(() => {
@@ -24,8 +26,41 @@ export default function AddCategory() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     console.log(data);
+
+    // data.image = image[0]
+
+    if(!updateIdState){
+      axios.post('http://localhost:5000/api/admin/parent-categories/add', toFormData(data))
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/category/view');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+    }  else {
+      axios.put(`http://localhost:5000/api/admin/parent-categories/update/${ updateId }`, toFormData(data))
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/category/view');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Something went wrong !!');
+      })
+    }
   };
 
   // update work
@@ -62,12 +97,13 @@ export default function AddCategory() {
                 <input
                   type="file"
                   accept="image/*"
-                  {...register("categoryImage", { required: "Category image is required" })}
-                  id="categoryImage"
+                  name="image"
+                  {...register("image", { required: "Category image is required" })}
+                  id="image"
                   className="dropify"
                   data-height="250"
                 />
-                {errors.categoryImage && <p className="text-red-500">{errors.categoryImage.message}</p>}
+                {errors.image && <p className="text-red-500">{errors.image.message}</p>}
               </div>
               <div className="w-2/3">
                 <div className="mb-5">
@@ -79,12 +115,12 @@ export default function AddCategory() {
                   </label>
                   <input
                     type="text"
-                    {...register("categoryName", { required: "Category name is required" })}
-                    id="categoryName"
+                    {...register("name", { required: "Category name is required" })}
+                    id="name"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                     placeholder="Category Name"
                   />
-                  {errors.categoryName && <p className="text-red-500">{errors.categoryName.message}</p>}
+                  {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                 </div>
                 <div className="mb-5">
                   <label

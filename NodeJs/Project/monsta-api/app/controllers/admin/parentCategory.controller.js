@@ -222,17 +222,19 @@ exports.destroy = async (request, response) => {
 exports.changeStatus = async (request, response) => {
     await parentCategoryModal.updateMany(
         {
-            _id: { $in: request.body.id },
+            _id: { $in: request.body.ids },
         },
         [
             {
                 $set: {
                     status: {
                         $switch: {
+                            // "default":"$$REMOVE",
                             branches: [
-                                { case: { $eq: ["$status", 0] }, then: 1 },
-                                { case: { $eq: ["$status", 1] }, then: 0 },
+                                { case: { $eq: ["$status", false] }, then: true },
+                                { case: { $eq: ["$status", true] }, then: false },
                             ],
+                            
                         },
                     },
                 },
@@ -249,6 +251,8 @@ exports.changeStatus = async (request, response) => {
 
     }).catch((error) => {
         var errormessages = [];
+
+        console.log(error);
 
         for (var value in error.errors) {
             console.log(value);
