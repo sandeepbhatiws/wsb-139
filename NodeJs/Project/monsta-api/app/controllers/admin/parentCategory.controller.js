@@ -68,6 +68,7 @@ exports.index = async (request, response) => {
                 const resp = {
                     status: true,
                     message: 'Record found successfully !!',
+                    base_url : `${request.protocol}://${request.get('host')}/uploads/categories/`,
                     data: result,
                 }
                 response.send(resp);
@@ -98,6 +99,7 @@ exports.details = async (request, response) => {
             if (result != null) {
                 const resp = {
                     status: true,
+                    base_url : `${request.protocol}://${request.get('host')}/uploads/categories/`,
                     message: 'Record found successfully !!',
                     data: result,
                 }
@@ -221,24 +223,15 @@ exports.destroy = async (request, response) => {
 // For Change Status
 exports.changeStatus = async (request, response) => {
     await parentCategoryModal.updateMany(
-        {
-            _id: { $in: request.body.ids },
-        },
+        { _id: { $in: request.body.ids } },
         [
-            {
-                $set: {
-                    status: {
-                        $switch: {
-                            // "default":"$$REMOVE",
-                            branches: [
-                                { case: { $eq: ["$status", false] }, then: true },
-                                { case: { $eq: ["$status", true] }, then: false },
-                            ],
-                            
-                        },
-                    },
-                },
-            },
+            { 
+                $set: { 
+                    status: { 
+                        $not: "$status" 
+                    } 
+                } 
+            }
         ]
     ).then((result) => {
         var resp = {

@@ -2,7 +2,7 @@ const express = require('express');
 const { create, index, update, destroy, details, changeStatus } = require('../../controllers/admin/parentCategory.controller');
 const multer  = require('multer')
 const path = require('path');
-const upload = multer({ dest: 'uploads/categroies' })
+const upload = multer({ dest: 'uploads/categories' })
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ module.exports = server => {
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-          cb(null, 'uploads/categroies')
+          cb(null, 'uploads/categories')
         },
         filename: function (req, file, cb) {
           const uniqueSuffix = Date.now();

@@ -14,12 +14,15 @@ export default function ViewCategory() {
 
   let [categoryData, setCategoryData] = useState([]);
   let [searchName, setSearchName] = useState('');
+  let [imagePath, setImagePath] = useState('');
+
 
   useEffect(() => {
     axios.post('http://localhost:5000/api/admin/parent-categories/view', {
       name: searchName
     })
       .then((result) => {
+        setImagePath(result.data.base_url);
         setCategoryData(result.data.data);
       })
       .catch((error) => {
@@ -127,7 +130,6 @@ export default function ViewCategory() {
                   <tbody>
                     {
                       (categoryData.length > 0)
-
                         ?
                         categoryData.map((v, i) => {
                           return (
@@ -142,7 +144,7 @@ export default function ViewCategory() {
                                 {v.name }
                               </td>
                               <td class="py-4">
-                                {v.image ? v.image : 'N/A'}
+                                {v.image ? <img src={ imagePath+v.image } width={'50px'}/> : 'N/A'}
                               </td>
 
                               <td class="px-6 py-4">
@@ -161,7 +163,7 @@ export default function ViewCategory() {
                               </td>
                               <td class="py-4">
 
-                                <Link to={`/color/update/${v._id}`} >
+                                <Link to={`/category/update/${v._id}`} >
                                   <div className="flex bg-blue-700 border border-blue-700 h-[40px] justify-center rounded-[50%] text-white w-[40px] dark:bg-blue-600 dark:focus:ring-blue-800 dark:hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 hover:bg-blue-800 items-center">
                                     <MdModeEdit className='text-[18px]' />
                                   </div>

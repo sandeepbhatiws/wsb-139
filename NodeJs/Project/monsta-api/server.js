@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const server = express();  // Executable Function
 
@@ -18,6 +19,8 @@ server.use(express.urlencoded({ extended: true }));
 server.get('/', (request, response) => {
     response.send('Server is working fine !!');
 });
+
+server.use('/uploads/categories', express.static('./uploads/categories'));
 
 // Admin URLS
 require('./app/routes/admin/default.routes.js')(server);

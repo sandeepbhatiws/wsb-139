@@ -9,6 +9,10 @@ import axios, { toFormData } from "axios";
 import { toast } from "react-toastify";
 
 export default function AddCategory() {
+
+  let [categoryDetails, setCategoryDetails] = useState('');
+  const [defaultImage, setDefaultImage] = useState(null);
+
   useEffect(() => {
     $(".dropify").dropify({
       messages: {
@@ -18,7 +22,26 @@ export default function AddCategory() {
         error: "Oops, something went wrong"
       }
     });
-  }, []);
+  }, [defaultImage]);
+
+  // useEffect(() => {
+  //   if (defaultImage) {
+  //     setDefaultImage(defaultImage);
+  //     updateDropify(defaultImage);
+  //   }
+  // }, [defaultImage]); // Runs when `imageUrl` updates
+
+  // const updateDropify = (fileUrl) => {
+  //   const dropifyElement = $("#image");
+
+  //   dropifyElement.data("dropify")?.destroy(); // Destroy old instance
+  //   dropifyElement.dropify({ defaultFile: fileUrl });
+
+  //   dropifyElement.data("dropify").settings.defaultFile = fileUrl;
+  //   dropifyElement.data("dropify").clearElement();
+  //   dropifyElement.data("dropify").destroy();
+  //   dropifyElement.dropify();
+  // };
 
   const {
     register,
@@ -31,7 +54,9 @@ export default function AddCategory() {
   const onSubmit = (data) => {
     console.log(data);
 
-    // data.image = image[0]
+    if (data.image && data.image.length > 0) {
+      data.image = data.image[0];
+    }
 
     if(!updateIdState){
       axios.post('http://localhost:5000/api/admin/parent-categories/add', toFormData(data))
@@ -71,6 +96,36 @@ export default function AddCategory() {
       setUpdateIdState(false)
     }
     else{
+
+      axios.post(`http://localhost:5000/api/admin/parent-categories/details/${ updateId }`)
+        .then((result) => {
+          if (result.data.status === true) {
+            const imageUrl = result.data.base_url + result.data.data.image;
+            setDefaultImage(imageUrl);
+            setCategoryDetails(result.data.data);
+      
+            // Ensure Dropify reinitializes properly
+            // setTimeout(() => {
+            //   const dropifyElement = $("#image");
+      
+            //   dropifyElement.data("dropify")?.destroy(); // Destroy old instance
+            //   dropifyElement.dropify({
+            //     defaultFile: imageUrl, // Set new image
+            //   });
+      
+            //   dropifyElement.data("dropify").settings.defaultFile = imageUrl;
+            //   dropifyElement.data("dropify").clearElement();
+            //   dropifyElement.data("dropify").destroy();
+            //   dropifyElement.dropify();
+            // }, 100); // Delay to allow state updates
+          } else {
+            toast.error(result.data.message);
+          }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })
+
       setUpdateIdState(true)
     }
   },[updateId])
@@ -88,10 +143,7 @@ export default function AddCategory() {
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="border border-t-0 p-3 rounded-b-md border-slate-400">
             <div className="flex gap-5">
               <div className="w-1/3">
-                <label
-                  
-                  className="block  text-md font-medium text-gray-900"
-                >
+                <label className="block  text-md font-medium text-gray-900">
                   Category Image
                 </label>
                 <input
@@ -100,6 +152,7 @@ export default function AddCategory() {
                   name="image"
                   {...register("image", { required: "Category image is required" })}
                   id="image"
+                  data-default-file={defaultImage} 
                   className="dropify"
                   data-height="250"
                 />
@@ -117,6 +170,7 @@ export default function AddCategory() {
                     type="text"
                     {...register("name", { required: "Category name is required" })}
                     id="name"
+                    defaultValue={categoryDetails.name}
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                     placeholder="Category Name"
                   />
