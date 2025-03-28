@@ -15,6 +15,9 @@ export default function ViewCategory() {
   let [categoryData, setCategoryData] = useState([]);
   let [searchName, setSearchName] = useState('');
   let [imagePath, setImagePath] = useState('');
+  let [checkBoxValues, setCheckBoxValues] = useState([]);
+
+  let [status, setStatus] = useState(false);
 
 
   useEffect(() => {
@@ -29,13 +32,78 @@ export default function ViewCategory() {
         toast.error('Something went wrong !!');
       })
 
-  }, [searchName]);
+  }, [searchName, status]);
 
   const search = (event) => {
     event.preventDefault();
     console.log(event.target.name.value);
     setSearchName(event.target.name.value);
   }
+
+  const checkBox = (id) => {
+    if(checkBoxValues.includes(id)){
+      var dataFilter = checkBoxValues.filter((v) => {
+        if(v != id){
+          return v;
+        }
+      })
+      setCheckBoxValues([...dataFilter]);
+    } else {
+      checkBoxValues.push(id);
+      setCheckBoxValues([...checkBoxValues]);
+    }
+
+    console.log(checkBoxValues);
+  }
+
+  const selectAll = () => {
+    categoryData.forEach((v) => {
+      if(checkBoxValues.includes(v._id)){
+      } else {
+        checkBoxValues.push(v._id);
+        setCheckBoxValues([...checkBoxValues]);
+      }
+    })
+  }
+
+  const changeStatus = () => {
+    if(checkBoxValues.length > 0){
+      if(confirm('Are you sure you want to change status ?')){
+        axios.post('http://localhost:5000/api/admin/parent-categories/change-status', {
+          ids: checkBoxValues
+        })
+        .then((result) => {
+          toast.success(result.data.message)
+          setCheckBoxValues([]);
+          setStatus(!status);
+        })
+        .catch((error) => {
+          toast.error('Something went wrong !!');
+        })
+      }
+    }
+  }
+
+  const destroy = () => {
+    if(checkBoxValues.length > 0){
+      if(confirm('Are you sure you want to delete ?')){
+        axios.post('http://localhost:5000/api/admin/parent-categories/delete', {
+          ids: checkBoxValues
+        })
+        .then((result) => {
+          toast.success(result.data.message)
+          setCheckBoxValues([]);
+          setStatus(!status);
+        })
+        .catch((error) => {
+          toast.error('Something went wrong !!');
+        })
+      }
+    }
+  }
+
+
+
   return (
     <section className="w-full">
 
@@ -89,8 +157,8 @@ export default function ViewCategory() {
                 {activeFilter ? <FaFilter className='text-[18px]' /> : <MdFilterAltOff className='text-[18px]' />}
               </div>
 
-              <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"> Change Status</button>
-              <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete </button>
+              <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={ changeStatus } > Change Status</button>
+              <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={ destroy }>Delete </button>
             </div>
           </div>
           <div className="border border-t-0 rounded-b-md border-slate-400">
@@ -106,7 +174,19 @@ export default function ViewCategory() {
                     <tr>
                       <th scope="col" class="p-4">
                         <div class="flex items-center">
-                          <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                          <input id="checkbox-all-search" onClick={ selectAll }
+                          
+
+                          checked=
+                          {
+                            categoryData.length > 0
+                            ?
+                              (checkBoxValues.length == categoryData.length) ? 'checked' : ''
+                            :
+
+                            ''
+                          }
+                          type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                           <label for="checkbox-all-search" class="sr-only">checkbox</label>
                         </div>
                       </th>
@@ -136,7 +216,9 @@ export default function ViewCategory() {
                             <tr key={i} class="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 hover:bg-gray-50">
                               <td class="p-4 w-4">
                                 <div class="flex items-center">
-                                  <input id="checkbox-table-search-1" type="checkbox" class="bg-gray-100 border-gray-300 h-4 rounded-sm text-blue-600 w-4 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800 dark:ring-offset-gray-800 focus:ring-2 focus:ring-blue-500" />
+                                  <input id="checkbox-table-search-1" onClick={ () => checkBox(v._id) }
+                                  checked = { (checkBoxValues.includes(v._id)) ? 'checked' : '' }
+                                  type="checkbox" class="bg-gray-100 border-gray-300 h-4 rounded-sm text-blue-600 w-4 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800 dark:ring-offset-gray-800 focus:ring-2 focus:ring-blue-500" />
                                   <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                 </div>
                               </td>
@@ -172,7 +254,6 @@ export default function ViewCategory() {
                             </tr>
                           )
                         })
-
 
                         :
                         <tr class="bg-white border-gray-200 text-center dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 hover:bg-gray-50">
