@@ -11,12 +11,10 @@ export default function ViewCategory() {
   // let [orderModal, setOrderModal] = useState(false);
 
   let [activeFilter, setactiveFilter] = useState(true);
-
   let [categoryData, setCategoryData] = useState([]);
   let [searchName, setSearchName] = useState('');
   let [imagePath, setImagePath] = useState('');
   let [checkBoxValues, setCheckBoxValues] = useState([]);
-
   let [status, setStatus] = useState(false);
 
 

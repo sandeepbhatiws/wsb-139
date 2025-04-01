@@ -7,24 +7,17 @@ exports.parentCategories = async (request, response) => {
     const addCondition = [
         {
             deleted_at : null,
-            status : true
         }
     ];
+    
+    const orCondition = [];
 
     if (request.body.active_status != '' && request.body.active_status != undefined) {
-        console.log(Number(request.body.active_status));
-        addCondition.status = request.body.active_status;
+        orCondition.push({ status : request.body.active_status});
     }
     
-    const orCondition = [
-    ];
-    
-    if (request.body.id != '' && request.body.id != undefined) {
-        orCondition._id = request.body.id;
-    }
-
-    if (request.body.id != '' && request.body.id != undefined) {
-        orCondition.id = request.body.id;
+    if (request.body.id && request.body.id !== '') {
+        orCondition.push({ _id: request.body.id });
     }
     
     if(addCondition.length > 0){
@@ -32,11 +25,8 @@ exports.parentCategories = async (request, response) => {
     } else {
         var filter = {}
     }
-
-    console.log(orCondition);
     
     if(orCondition.length > 0){
-        console.log(orCondition);
         filter.$or = orCondition ;
     }
 
