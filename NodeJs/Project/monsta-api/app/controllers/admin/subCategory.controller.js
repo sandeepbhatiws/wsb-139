@@ -132,6 +132,13 @@ exports.index = async (request, response) => {
     }
 
     await subCategoryModal.find(condition)
+        // .populate('parent_category_id', 'name')
+
+        .populate({
+            path : 'parent_category_id',
+            select : 'name status'
+        })
+        // .populated('parent_category_id')
         .select('name parent_category_id image status order')
         .sort(
             {
@@ -157,6 +164,7 @@ exports.index = async (request, response) => {
             }
         })
         .catch((error) => {
+            console.log(error);
             const resp = {
                 status: false,
                 message: 'Something went wrong !!',

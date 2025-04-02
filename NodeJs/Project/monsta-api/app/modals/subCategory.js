@@ -8,6 +8,7 @@ const subCategorySchema = new mongoose.Schema({
     parent_category_id : {
         type : String,
         required : [true, 'Parent category is required.'],
+        ref: 'parent_categories'
     },
     image : {
         type : String,
