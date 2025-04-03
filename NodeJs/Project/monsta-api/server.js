@@ -28,6 +28,7 @@ require('./app/routes/admin/material.routes.js')(server);
 require('./app/routes/admin/color.routes.js')(server);
 require('./app/routes/admin/parentCategory.routes.js')(server);
 require('./app/routes/admin/subCategory.routes.js')(server);
+require('./app/routes/admin/product.routes.js')(server);
 
 
 // Website URLS

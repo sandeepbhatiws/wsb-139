@@ -21,26 +21,31 @@ const schema = new mongoose.Schema({
         type : Number,
         default : 0
     },
-    color_id : [{
+    color_id : {
         type : Array,
-        ref: 'colors'
-    }],
-    material_id : [{
+        ref: 'colors',
+        default : []
+    },
+    material_id : {
         type : Array,
-        ref: 'materials'
-    }],
-    parent_category_id : [{
+        ref: 'materials',
+        default : []
+    },
+    parent_category_id : {
         type : Array,
-        ref: 'parent_categories'
-    }],
-    sub_category_id : [{
+        ref: 'parent_categories',
+        default : []
+    },
+    sub_category_id : {
         type : Array,
-        ref: 'sub_categories'
-    }],
-    sub_sub_category_id : [{
+        ref: 'sub_categories',
+        default : []
+    },
+    sub_sub_category_id : {
         type : Array,
-        ref: 'sub_sub_categories'
-    }],
+        ref: 'sub_sub_categories',
+        default : []
+    },
     is_new_arrival : {
         type : Boolean,
         default : false // 0 - No 1 - Yes
@@ -89,10 +94,10 @@ const schema = new mongoose.Schema({
         type : String,
         default : ''
     },
-    multiple_images : [{
+    multiple_images : {
         type : Array,
         default : []
-    }],
+    },
     status : {
         type : Boolean,
         default : 1
