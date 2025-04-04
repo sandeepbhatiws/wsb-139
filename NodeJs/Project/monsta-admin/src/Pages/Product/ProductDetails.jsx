@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../common/Breadcrumb'
-import $ from "jquery";
+import $, { param } from "jquery";
 import "dropify/dist/css/dropify.min.css";
 import "dropify/dist/js/dropify.min.js";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import axios, { toFormData } from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetails() {
+
+  const [categories, setCategories] = useState([]);
+  const [categoryValue, setCategoryValue] = useState('');
+  const [subCategories, setSubCategories] = useState([]);
+  const [materials, setMaterails] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [updateIdState, setUpdateIdState] = useState(false);
 
   useEffect(() => {
     $(".dropify").dropify({
@@ -22,6 +32,96 @@ export default function ProductDetails() {
   const [value, setValue] = useState('');
 
 
+  useEffect(() => {
+    axios.post('http://localhost:5000/api/admin/parent-categories/view')
+      .then((result) => {
+        setCategories(result.data.data);
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+
+      
+      axios.post('http://localhost:5000/api/admin/materials/view')
+      .then((result) => {
+        setMaterails(result.data.data);
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+
+      axios.post('http://localhost:5000/api/admin/colors/view')
+      .then((result) => {
+        setColors(result.data.data);
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+
+
+  },[]);
+
+  useEffect(() => {
+
+    if(categoryValue != ''){
+      axios.post('http://localhost:5000/api/admin/sub-categories/view',{
+          parent_category_id : categoryValue
+        }
+      )
+      .then((result) => {
+        setSubCategories(result.data.data);
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+    } else {
+      setSubCategories([]);
+    }
+    
+
+  },[categoryValue]);
+
+  var getCategoryValue = (event) => {
+    setCategoryValue(event.target.value)
+  }
+
+  var navigate = useNavigate();
+
+  const formHandler = (event) => {
+    event.preventDefault();
+
+    if(!updateIdState){
+      axios.post('http://localhost:5000/api/admin/products/add', (event.target))
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/product/product-items');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        toast.error('Something went wrong !!');
+      })
+    }  else {
+      axios.put(`http://localhost:5000/api/admin/products/update/${ updateId }`, (event.target))
+      .then((result) => {
+        if(result.data.status == true){
+          toast.success(result.data.message);
+          navigate('/product/product-items');
+        } else {
+          toast.error(result.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Something went wrong !!');
+      })
+    }
+
+
+  }
+
   return (
     <section className="w-full">
 
@@ -34,7 +134,7 @@ export default function ProductDetails() {
 
       <div className='w-full px-6 py-6  '>
 
-        <form >
+        <form onSubmit={ formHandler }>
           <div className="grid grid-cols-3 gap-[10px] ">
             <div className="for-images ">
 
@@ -47,6 +147,7 @@ export default function ProductDetails() {
                 </label>
                 <input
                   type="file"
+                  name='image'
                   id="categoryImage"
                   className="dropify"
                   data-height="250"
@@ -63,8 +164,10 @@ export default function ProductDetails() {
                 </label>
                 <input
                   type="file"
+                  name='images[]'
                   id="categoryImage"
                   className="dropify"
+                  multiple="multiple"
                   data-height="250"
                 />
 
@@ -81,7 +184,7 @@ export default function ProductDetails() {
                   Prodct Name
                 </label>
                 <input
-                  type="text"
+                  type="text" name='name'
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                   placeholder='Prodct Name'
                 />
@@ -94,16 +197,16 @@ export default function ProductDetails() {
                 >
                   Select Category
                 </label>
-                <select className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
+                <select name='parent_category_id' onChange={ getCategoryValue } className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
                   <option value="">Select Category</option>
-                  <optgroup label="Electronics">
-                    <option value="mobile">Mobile Phones</option>
-                    <option value="laptop">Laptops</option>
-                  </optgroup>
-                  <optgroup label="Clothing">
-                    <option value="men">Men's Wear</option>
-                    <option value="women">Women's Wear</option>
-                  </optgroup>
+                  
+                  {
+                    categories.map((v,i) => {
+                      return(
+                        <option value={ v._id }>{ v.name }</option>
+                      )
+                    })
+                  }
                 </select>
 
               </div>
@@ -117,14 +220,13 @@ export default function ProductDetails() {
                 </label>
                 <select className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
                   <option value="">Nothing Selected</option>
-                  <option value="">Neem</option>
-                  <option value="">Babbul</option>
-                  <option value="">Neem</option>
-                  <option value="">Babbul</option>
-                  <option value="">Neem</option>
-                  <option value="">Babbul</option>
-                  <option value="">Neem</option>
-                  <option value="">Babbul</option>
+                  {
+                    materials.map((v,i) => {
+                      return(
+                        <option value={ v._id }>{ v.name }</option>
+                      )
+                    })
+                  }
 
                 </select>
               </div>
@@ -214,16 +316,18 @@ export default function ProductDetails() {
                   htmlFor="categoryName"
                   className="block  text-md font-medium text-gray-900 text-[#76838f]"
                 >
-                  Select Sub Sub Category
+                  Select Sub Category
                 </label>
                 <select className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
                   <option value="">Nothing Selected</option>
 
-                  <option value="mobile">Mobile Phones</option>
-                  <option value="laptop">Laptops</option>
-
-                  <option value="men">Men's Wear</option>
-                  <option value="women">Women's Wear</option>
+                  {
+                    subCategories.map((v,i) => {
+                      return(
+                        <option value={ v._id }>{ v.name }</option>
+                      )
+                    })
+                  }
 
                 </select>
               </div>
@@ -238,11 +342,13 @@ export default function ProductDetails() {
                 <select className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
                   <option value="">Nothing Selected</option>
 
-                  <option value="">Red</option>
-                  <option value="">Blue</option>
-
-                  <option value="">Green</option>
-                  <option value="">Gray</option>
+                  {
+                    colors.map((v,i) => {
+                      return(
+                        <option value={ v._id }>{ v.name }</option>
+                      )
+                    })
+                  }
 
                 </select>
               </div>

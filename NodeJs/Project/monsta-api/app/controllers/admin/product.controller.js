@@ -5,7 +5,7 @@ exports.create = async (request, response) => {
 
     const saveData = request.body;
 
-    if(request.files.images.length > 0){
+    if(request.files.images){
         var images = [];
         request.files.images.forEach((v,i) => {
             images.push(v.filename);
@@ -13,7 +13,7 @@ exports.create = async (request, response) => {
         saveData.multiple_images = images;
     }
 
-    if(request.files.image[0]){
+    if(request.files.image){
         saveData.image = request.files.image[0].filename;
     }
 
