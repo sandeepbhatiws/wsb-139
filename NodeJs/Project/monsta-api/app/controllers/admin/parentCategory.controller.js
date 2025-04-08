@@ -1,4 +1,5 @@
 const parentCategoryModal = require("../../modals/parentCategory");
+const slugify = require('slugify');
 
 // For Add Data
 exports.create = async (request, response) => {
@@ -9,6 +10,12 @@ exports.create = async (request, response) => {
 
     if(request.body.name){
         saveData.name = request.body.name;
+
+        var slug = slugify(request.body.name, {
+            lower: true,
+            strict: true,
+        })
+        saveData.slug = await generateUniqueSlug(parentCategoryModal,slug);
     }
 
     if(request.file){
@@ -43,6 +50,19 @@ exports.create = async (request, response) => {
         })
 }
 
+const generateUniqueSlug = async (Model, baseSlug) => {
+    let slug = baseSlug;
+    let count = 0;
+  
+    // Loop to find unique slug
+    while (await Model.findOne({ slug })) {
+      count++;
+      slug = `${baseSlug}-${count}`;
+    }
+  
+    return slug;
+};
+
 // For View 
 exports.index = async (request, response) => {
 
@@ -57,7 +77,11 @@ exports.index = async (request, response) => {
     }
 
     await parentCategoryModal.find(condition)
-        .select('name image status order')
+        .select('name image status sub_category_id order')
+        .populate({
+            path : 'sub_category_id',
+            select : 'name status'
+        })
         .sort(
             {
                 _id: 'desc'

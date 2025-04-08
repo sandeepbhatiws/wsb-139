@@ -9,6 +9,22 @@ const parentCategorySchema = new mongoose.Schema({
         type : String,
         default : ''
     },
+    slug : {
+        type : String,
+        default : ''
+    },
+    sub_category_id : {
+        type : Array,
+        ref: 'sub_categories'
+    },
+    sub_sub_category_id : {
+        type : Array,
+        ref: 'sub_sub_categories'
+    },
+    product_id : {
+        type : Array,
+        ref: 'products'
+    },
     status : {
         type : Boolean,
         default : 1

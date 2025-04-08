@@ -90,7 +90,11 @@ exports.create = async (request, response) => {
     const data = new subCategoryModal(saveData)
 
     await data.save()
-        .then((result) => {
+        .then(async(result) => {
+            if(request.body.parent_category_id){
+                await parentCategoryModal.updateOne({ _id: request.body.parent_category_id }, { $push: { sub_category_id: { $each: [result._id] } } });
+            }
+
             const resp = {
                 status: true,
                 message: 'Record inserted successfully !!',
