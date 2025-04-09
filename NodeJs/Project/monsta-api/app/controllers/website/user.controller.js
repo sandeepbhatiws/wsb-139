@@ -1,6 +1,9 @@
 const userModal = require("../../modals/user");
 const bcrypt = require('bcrypt');
+const { request, response } = require("express");
+var jwt = require('jsonwebtoken');
 const saltRounds = 10;
+var secretkey = '1234567890';
 
 // For Add Data
 exports.register = async (request, response) => {
@@ -16,15 +19,23 @@ exports.register = async (request, response) => {
     const data = new userModal(userData)
 
     await data.save()
-    .then((result) => {
+    .then(async(result) => {
+
+        var token = await jwt.sign({ data : result}, secretkey);
+
+        console.log(token);
+
         const resp = {
             status: true,
             message: 'user created successfully !!',
+            token : token,
             data: result,
         }
         response.send(resp);
     })
     .catch((error) => {
+
+        console.log(error);
         var errormessages = [];
 
         for (var value in error.errors) {
@@ -53,9 +64,11 @@ exports.login = async (request, response) => {
 
             if(bcrypt.compareSync(request.body.password, result.password)){
                 if(result.status == true){
+                    var token = jwt.sign({ data : result}, secretkey, { expiresIn : "15000"});
                     const resp = {
                         status: true,
                         message: 'User found successfully !!',
+                        token : token,
                         data: result,
                     }
                     response.send(resp);
@@ -95,6 +108,24 @@ exports.login = async (request, response) => {
         }
         response.send(resp);
     })
+}
+
+exports.viewProfile = async(request,response) => {
+
+
+    console.log(request.headers.authorization);
+
+    var token = request.headers.authorization.split(' ');
+
+    var verifyToken = jwt.verify(token[1], secretkey);
+
+    const resp = {
+        status: false,
+        message: 'No record found !!',
+        data: verifyToken.data,
+    }
+    response.send(resp);
+
 }
 
 // const generateUniqueSlug = async (Model, baseSlug) => {

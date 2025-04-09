@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login } = require('../../controllers/website/user.controller');
+const { register, login, viewProfile } = require('../../controllers/website/user.controller');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/users' })
 
@@ -26,7 +26,7 @@ module.exports = server => {
 
     router.post('/login', upload.none() ,login);
 
-    // router.post('/details/:id', upload.none() ,details);
+    router.post('/view-profile', upload.none() ,viewProfile);
 
     // router.put('/update/:id', upload.none() ,update);
 
