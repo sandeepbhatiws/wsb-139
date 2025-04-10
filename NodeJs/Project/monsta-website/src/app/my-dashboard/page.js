@@ -1,11 +1,26 @@
 'use client'
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 
 export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [selectedTitle, setSelectedTitle] = useState("Mr.");
+    const router = useRouter();
+
+    const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+    
+    useEffect(() => {
+        if(!userToken){
+            router.push('/login-register');
+        }
+    },[userToken]);
+
+    const logout = () => {
+        localStorage.setItem('userToken', '');
+        setuserToken('');
+    }
 
     return (
         <>
@@ -41,7 +56,7 @@ export default function DashboardPage() {
 
                                 <li><a onClick={() => setActiveTab('password')} className={`nav-link ${activeTab === 'password' ? 'active' : ''}`}>Change Password</a></li>
 
-                                <li><Link href="/" className='nav-link'>Logout</Link></li>
+                                <li><a onClick={ logout } className='nav-link'>Logout</a></li>
                             </ul>
                         </Col>
 

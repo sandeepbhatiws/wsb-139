@@ -27,7 +27,7 @@ exports.register = async (request, response) => {
 
         const resp = {
             status: true,
-            message: 'user created successfully !!',
+            message: 'user register successfully !!',
             token : token,
             data: result,
         }
@@ -57,17 +57,18 @@ exports.login = async (request, response) => {
 
     await userModal.findOne({
         email : request.body.email,
-        user_type : 'user',        
+        user_type : 'user',
+        deleted_at : null   
     })
     .then((result) => {
         if (result != null) {
 
             if(bcrypt.compareSync(request.body.password, result.password)){
                 if(result.status == true){
-                    var token = jwt.sign({ data : result}, secretkey, { expiresIn : "15000"});
+                    var token = jwt.sign({ data : result}, secretkey, { expiresIn : "1day"});
                     const resp = {
                         status: true,
-                        message: 'User found successfully !!',
+                        message: 'User login successfully !!',
                         token : token,
                         data: result,
                     }
@@ -93,7 +94,7 @@ exports.login = async (request, response) => {
         } else {
             const resp = {
                 status: false,
-                message: 'No record found !!',
+                message: 'Email id or password is incorrect !!',
                 data: [],
             }
             response.send(resp);

@@ -23,6 +23,8 @@ export default function Header() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+
     return (
         <>
             {/* Desktop Header */}
@@ -36,13 +38,23 @@ export default function Header() {
                                 </div>
                             </Col>
                             <Col lg={5} md={12}>
-
-                                <Link href={"/login-register"}>
-                                    <ul className="auth d-flex justify-content-end">
-                                        <li>Login &nbsp;/</li>
-                                        <li>Register</li>
-                                    </ul>
-                                </Link>
+                                {
+                                    userToken
+                                    ? 
+                                    <Link href={"/my-dashboard"}>
+                                        <ul className="auth d-flex justify-content-end">
+                                            <li>My Dashboard</li>
+                                        </ul>
+                                    </Link>
+                                    :
+                                    <Link href={"/login-register"}>
+                                        <ul className="auth d-flex justify-content-end">
+                                            <li>Login &nbsp;/</li>
+                                            <li>Register</li>
+                                        </ul>
+                                    </Link>
+                                }
+                                
 
                             </Col>
                         </Row>
