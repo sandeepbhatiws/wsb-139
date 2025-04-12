@@ -113,140 +113,144 @@ exports.login = async (request, response) => {
 
 exports.viewProfile = async(request,response) => {
 
-
-    console.log(request.headers.authorization);
-
     var token = request.headers.authorization.split(' ');
+    var verifyToken = await jwt.verify(token[1], secretkey);
 
-    var verifyToken = jwt.verify(token[1], secretkey);
-
-    const resp = {
-        status: false,
-        message: 'No record found !!',
-        data: verifyToken.data,
-    }
-    response.send(resp);
-
+    await userModal.findById(verifyToken.data._id)
+        .then((result) => {
+            if (result) {
+                const resp = {
+                    status: true,
+                    message: 'Record found successfully !!',
+                    base_url : `${request.protocol}://${request.get('host')}/uploads/users/`,
+                    data: result,
+                }
+                response.send(resp);
+            } else {
+                const resp = {
+                    status: false,
+                    message: 'No record found !!',
+                    data: [],
+                }
+                response.send(resp);
+            }
+        })
+        .catch((error) => {
+            const resp = {
+                status: false,
+                message: 'Something went wrong !!',
+                data: '',
+                error: error
+            }
+            response.send(resp);
+        })
 }
 
-// const generateUniqueSlug = async (Model, baseSlug) => {
-//     let slug = baseSlug;
-//     let count = 0;
-  
-//     // Loop to find unique slug
-//     while (await Model.findOne({ slug })) {
-//       count++;
-//       slug = `${baseSlug}-${count}`;
-//     }
-  
-//     return slug;
-// };
+// For Update Profile
+exports.updateProfile = async (request, response) => {
 
-// // For View 
-// exports.index = async (request, response) => {
+    var token = request.headers.authorization.split(' ');
+    var verifyToken = await jwt.verify(token[1], secretkey);
+    
+    const data = request.body;
 
-//     var condition = {
-//         deleted_at: null
-//     }
+    if(request.file){
+        data.image = request.file.filename;
+    }
 
-//     if (request.body.name != '' && request.body.name != undefined) {
-//         // var nameRegex = new RegExp("^" + request.body.name);
-//         var nameRegex = new RegExp(request.body.name, "i");
-//         condition.name = nameRegex;
-//     }
+    await userModal.updateOne(
+        {
+            _id: verifyToken.data._id
+        },
+        {
+            $set: data
+        }
+    ).then((result) => {
+        var resp = {
+            status: true,
+            message: 'Record update successfully !!',
+            data: result
+        }
 
-//     await parentCategoryModal.find(condition)
-//         .select('name image status sub_category_id order')
-//         .populate({
-//             path : 'sub_category_id',
-//             select : 'name status'
-//         })
-//         .sort(
-//             {
-//                 _id: 'desc'
-//             }
-//         )
-//         .then((result) => {
-//             if (result.length > 0) {
-//                 const resp = {
-//                     status: true,
-//                     message: 'Record found successfully !!',
-//                     base_url : `${request.protocol}://${request.get('host')}/uploads/categories/`,
-//                     data: result,
-//                 }
-//                 response.send(resp);
-//             } else {
-//                 const resp = {
-//                     status: false,
-//                     message: 'No record found !!',
-//                     data: [],
-//                 }
-//                 response.send(resp);
-//             }
-//         })
-//         .catch((error) => {
-//             const resp = {
-//                 status: false,
-//                 message: 'Something went wrong !!',
-//                 data: '',
-//                 error: error
-//             }
-//             response.send(resp);
-//         })
-// }
+        response.send(resp);
 
+    }).catch((error) => {
+        var errormessages = [];
 
+        for (var value in error.errors) {
+            console.log(value);
+            errormessages.push(error.errors[value].message);
+        }
 
-// // For Update
-// exports.update = async (request, response) => {
+        const resp = {
+            status: false,
+            message: 'Something went wrong !!',
+            data: '',
+            error: errormessages
+        }
+        response.send(resp);
+    })
+}
 
-//     var condition = {};
+// For Change Password
+exports.changePassword = async (request, response) => {
 
-//     if (request.body.name) {
-//         condition.name = request.body.name;
-//     }
+    var token = request.headers.authorization.split(' ');
+    var verifyToken = await jwt.verify(token[1], secretkey);
 
-//     if(request.file){
-//         condition.image = request.file.filename;
-//     }
+    if(request.body.current_password == request.body.new_password ){
+        const resp = {
+            status: false,
+            message: 'New password must be different from current password',
+            data: '',
+        }
+        response.send(resp);
+    }
 
-//     if (request.body.order) {
-//         condition.order = request.body.order;
-//     }
+    if(request.body.new_password != request.body.confirm_password ){
+        const resp = {
+            status: false,
+            message: 'New password and confirm password must be same',
+            data: '',
+        }
+        response.send(resp);
+    }
 
-//     await parentCategoryModal.updateOne(
-//         {
-//             _id: request.params.id
-//         },
-//         {
-//             $set: condition
-//         }
-//     ).then((result) => {
-//         var resp = {
-//             status: true,
-//             message: 'Record update successfully !!',
-//             data: result
-//         }
+    await userModal.updateOne(
+        {
+            _id: verifyToken.data._id
+        },
+        {
+            $set: {
+                password : request.body.confirm_password
+            }
+        }
+    ).then((result) => {
+        var resp = {
+            status: true,
+            message: 'Change Password successfully !!',
+            data: result
+        }
 
-//         response.send(resp);
+        response.send(resp);
 
-//     }).catch((error) => {
-//         var errormessages = [];
+    }).catch((error) => {
+        var errormessages = [];
 
-//         for (var value in error.errors) {
-//             console.log(value);
-//             errormessages.push(error.errors[value].message);
-//         }
+        for (var value in error.errors) {
+            console.log(value);
+            errormessages.push(error.errors[value].message);
+        }
 
-//         const resp = {
-//             status: false,
-//             message: 'Something went wrong !!',
-//             data: '',
-//             error: errormessages
-//         }
-//         response.send(resp);
-//     })
-// }
+        const resp = {
+            status: false,
+            message: 'Something went wrong !!',
+            data: '',
+            error: errormessages
+        }
+        response.send(resp);
+    })
+}
 
 // // For Delete
 // exports.destroy = async (request, response) => {

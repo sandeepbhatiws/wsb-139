@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     mobile_number : {
         type : Number,
+        default : ''
     },
     password : {
         type : String,
@@ -27,10 +28,12 @@ const userSchema = new mongoose.Schema({
     },
     image : {
         type : String,
+        default : ''
     },
     user_type : {
         type : String,
-        enum : ['user', 'admin']
+        enum : ['user', 'admin'],
+        default : 'user'
     },
     status : {
         type : Boolean,
