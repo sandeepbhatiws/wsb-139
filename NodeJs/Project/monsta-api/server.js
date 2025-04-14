@@ -34,6 +34,7 @@ require('./app/routes/admin/product.routes.js')(server);
 // Website URLS
 require('./app/routes/website/material.routes.js')(server);
 require('./app/routes/website/user.routes.js')(server);
+require('./app/routes/website/verifyToken.routes.js')(server);
 
 server.get('*', (request, response) => {
     response.send('404 Page not found !!');

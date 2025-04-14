@@ -5,8 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./globals.css";
 import { ToastContainer } from 'react-toastify';
-
-
+import { Provider } from 'react-redux';
+import { store } from './Redux Store/store';
 
 export const metadata = {
   title: "Home",
@@ -17,10 +17,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ToastContainer/>
-      <Header/>
+      {/* <Provider store={store}> */}
+        <ToastContainer />
+        <Header />
         {children}
-        <Footer/>
+        <Footer />
+      {/* </Provider> */}
       </body>
     </html>
   );
