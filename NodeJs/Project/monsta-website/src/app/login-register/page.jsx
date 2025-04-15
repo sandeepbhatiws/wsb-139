@@ -35,6 +35,25 @@ export default function page() {
         })    
     }
 
+    const forgotPassword = (event) => {
+        event.preventDefault();
+
+        axios.post('http://localhost:5000/api/website/users/register',event.target)
+        .then((result) => {
+            if(result.data.status){
+                event.target.reset();
+                toast.success(result.data.message);
+                localStorage.setItem('userToken', result.data.token);
+                router.push('/');
+            } else {
+                toast.error(result.data.message);
+            }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })    
+    }
+
     const loginUser = (event) => {
         event.preventDefault();
 
@@ -91,7 +110,7 @@ export default function page() {
                                 <input type="password" name='password'/>
                              </p>   
                             <div className="login_submit">
-                               <a href="#">Lost your password?</a>
+                               <a onClick={ forgotPassword }>Lost your password?</a>
                                 <label htmlFor="remember">
                                     <input id="remember" type="checkbox"/>
                                     Remember me

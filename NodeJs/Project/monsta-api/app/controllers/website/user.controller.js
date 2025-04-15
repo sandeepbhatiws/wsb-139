@@ -227,13 +227,15 @@ exports.changePassword = async (request, response) => {
         response.send(resp);
     }
 
+    var password = bcrypt.hashSync(request.body.confirm_password, saltRounds);
+
     await userModal.updateOne(
         {
             _id: verifyToken.data._id
         },
         {
             $set: {
-                password: bcrypt.hashSync(request.body.confirm_password, saltRounds)
+                password: password
             }
         }
     ).then((result) => {

@@ -1,15 +1,85 @@
 'use client'
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [selectedTitle, setSelectedTitle] = useState("Mr.");
     const router = useRouter();
+    const [apiStatus, setAPIStatus] = useState(true);
+    const [userInfo, setUserInfo] = useState('');
 
     const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+
+    useEffect(() => {
+        axios.post('http://localhost:5000/api/website/users/view-profile',{}, {
+            headers : {
+                'Authorization' : `Bearer ${userToken}`
+            }
+        })
+        .then((result) => {
+            if(result.data.status){
+                // toast.success(result.data.message);
+                setUserInfo(result.data.data);
+            } else {
+                toast.error(result.data.message);
+            }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })
+    },[apiStatus]);
+
+    const updateProfile = (event) => {
+        event.preventDefault();
+
+        axios.put('http://localhost:5000/api/website/users/update-profile',event.target, {
+            headers : {
+                'Authorization' : `Bearer ${userToken}`
+            }
+        })
+        .then((result) => {
+            if(result.data.status){
+                toast.success(result.data.message);
+                setAPIStatus(!apiStatus);
+            } else {
+                toast.error(result.data.message);
+            }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })
+
+        console.log(event.target);
+    }
+
+    const changePassword = (event) => {
+        event.preventDefault();
+
+        axios.put('http://localhost:5000/api/website/users/change-password',event.target, {
+            headers : {
+                'Authorization' : `Bearer ${userToken}`
+            }
+        })
+        .then((result) => {
+            if(result.data.status){
+                toast.success(result.data.message);
+                setAPIStatus(!apiStatus);
+                event.target.reset();
+            } else {
+                toast.error(result.data.message);
+            }
+        })
+        .catch((error) => {
+            toast.error('Something went wrong !!');
+        })
+
+        console.log(event.target);
+    }
     
     useEffect(() => {
         if(!userToken){
@@ -286,7 +356,7 @@ export default function DashboardPage() {
                                     <div className="login">
                                         <div className="account_form login_form_container">
                                             <div className="account_login_form">
-                                                <form id="personal_information" autoComplete="off" noValidate="noValidate" className="bv-form">
+                                                <form id="personal_information" autoComplete="off" noValidate="noValidate" className="bv-form" onSubmit={ updateProfile }>
 
                                                     <div className="col-xl-12">
                                                         <div className="input-radio">
@@ -317,21 +387,21 @@ export default function DashboardPage() {
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Name*</label>
-                                                            <input type="text" className="form-control" id="name" name="name" data-bv-field="name" />
+                                                            <input type="text" className="form-control" id="name" name="name" data-bv-field="name" defaultValue={userInfo.name} />
                                                         </div>
                                                     </div>
 
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Email*</label>
-                                                            <input type="text" className="form-control" id="email" name="email" placeholdere="sultankhan.wscube@gmail.com" readOnly="readOnly" data-bv-field="email" />
+                                                            <input type="text" className="form-control" id="email" placeholdere="sultankhan.wscube@gmail.com" readOnly="readOnly" defaultValue={userInfo.email} data-bv-field="email" />
                                                         </div>
                                                     </div>
 
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Mobile Number*</label>
-                                                            <input type="text" className="form-control numeric" id="mobile_number" maxLength="15" name="mobile_number" data-bv-field="mobile_number" />
+                                                            <input type="text" className="form-control numeric" id="mobile_number" maxLength="15" name="mobile_number" data-bv-field="mobile_number" defaultValue={userInfo.mobile_number}  />
                                                         </div>
                                                     </div>
 
@@ -361,21 +431,21 @@ export default function DashboardPage() {
                                 <div className="login">
                                     <div className="account_form login_form_container">
                                         <div className="account_login_form">
-                                        <form method="POST" acceptCharset="UTF-8" id="change_password" className="bv-form" autoComplete="off" noValidate="noValidate">
+                                        <form method="POST" acceptCharset="UTF-8" id="change_password" className="bv-form" autoComplete="off" noValidate="noValidate" onSubmit={ changePassword }>
 
                                             <div className="form-group has-feedback">
                                                 <label>Current Password</label>
-                                                <input type="password" className="form-control" name="currentpassword" id="currentpassword" data-bv-field="currentpassword"/>
+                                                <input type="password" className="form-control" name="current_password" id="currentpassword" data-bv-field="currentpassword"/>
                                             </div>
 
                                             <div className="form-group has-feedback">
                                                 <label>New Password</label>
-                                                <input type="password" className="form-control" name="password" id="password" data-bv-field="password" />
+                                                <input type="password" className="form-control" name="new_password" id="password" data-bv-field="password" />
                                             </div>
 
                                             <div className="form-group has-feedback">
                                                 <label>Confirm Password</label>
-                                                <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" data-bv-field="confirmPassword" />
+                                                <input type="password" className="form-control" id="confirm_password" name="confirm_password" data-bv-field="confirmPassword" />
                                             </div>
 
                                             <br/>
