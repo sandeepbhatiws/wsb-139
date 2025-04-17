@@ -2,33 +2,37 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { useState } from 'react';
 
-const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
 
 const initialState = {
-  value: 0,
+  user: localStorage.getItem("user") ?? '',
+  token: localStorage.getItem("token") ?? '',
 }
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
+    userDetails: (state,{payload}) => {
+      state.user= payload.user
+      localStorage.setItem('user',state.user)
+
+      state.token= payload.token
+      localStorage.setItem('token',state.token)
     },
-    decrement: (state) => {
-      state.value -= 1
+    logOut: (state) => {
+
+      console.log('Logout User');
+      state.user= ''
+      localStorage.removeItem('user')
+
+      state.token= ''
+      localStorage.removeItem('token')
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    },
+   
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = loginSlice.actions
+export const { userDetails, logOut} = loginSlice.actions
 
 export default loginSlice.reducer

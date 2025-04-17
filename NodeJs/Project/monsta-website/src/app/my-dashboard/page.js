@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { logOut } from '../Redux Store/loginSlice';
 
 export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -13,25 +15,40 @@ export default function DashboardPage() {
     const [apiStatus, setAPIStatus] = useState(true);
     const [userInfo, setUserInfo] = useState('');
 
-    const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+    const dispatch = useDispatch();
+
+    let myName=  useSelector((state)=>state.login.user)
+    let userToken=  useSelector((state)=>state.login.token)
 
     useEffect(() => {
-        axios.post('http://localhost:5000/api/website/users/view-profile',{}, {
-            headers : {
-                'Authorization' : `Bearer ${userToken}`
-            }
-        })
-        .then((result) => {
-            if(result.data.status){
-                // toast.success(result.data.message);
-                setUserInfo(result.data.data);
-            } else {
-                toast.error(result.data.message);
-            }
-        })
-        .catch((error) => {
-            toast.error('Something went wrong !!');
-        })
+        if(!userToken){
+            router.push('/login-register');
+        }
+    },[userToken]);
+
+    
+
+    // const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+
+    useEffect(() => {
+        if(userToken){
+            axios.post('http://localhost:5000/api/website/users/view-profile',{}, {
+                headers : {
+                    'Authorization' : `Bearer ${userToken}`
+                }
+            })
+            .then((result) => {
+                if(result.data.status){
+                    // toast.success(result.data.message);
+                    setUserInfo(result.data.data);
+                } else {
+                    toast.error(result.data.message);
+                }
+            })
+            .catch((error) => {
+                toast.error('Something went wrong !!');
+            })
+        }
     },[apiStatus]);
 
     const updateProfile = (event) => {
@@ -80,17 +97,16 @@ export default function DashboardPage() {
 
         console.log(event.target);
     }
-    
-    useEffect(() => {
-        if(!userToken){
-            router.push('/login-register');
-        }
-    },[userToken]);
 
-    const logout = () => {
-        localStorage.setItem('userToken', '');
-        setuserToken('');
-    }
+    // let myName=  useSelector((state)=>state.login.user)
+    // let userToken=  useSelector((state)=>state.login.token)
+    
+    
+
+    // const logout = () => {
+    //     localStorage.setItem('userToken', '');
+    //     setuserToken('');
+    // }
 
     return (
         <>
@@ -126,7 +142,7 @@ export default function DashboardPage() {
 
                                 <li><a onClick={() => setActiveTab('password')} className={`nav-link ${activeTab === 'password' ? 'active' : ''}`}>Change Password</a></li>
 
-                                <li><a onClick={ logout } className='nav-link'>Logout</a></li>
+                                <li><a onClick={ () => dispatch(logOut()) } className='nav-link'>Logout</a></li>
                             </ul>
                         </Col>
 

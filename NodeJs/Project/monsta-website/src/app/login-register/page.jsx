@@ -4,17 +4,30 @@ import "./login-register.css"
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux';
+import { userDetails } from '../Redux Store/loginSlice';
 
 export default function page() {
-
+    let dispatch=useDispatch()
     const router = useRouter();
-    const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+    // const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+
+    let myName=  useSelector((state)=>state.login.user)
+    let userToken=  useSelector((state)=>state.login.token)
 
     useEffect(() => {
-        if(userToken){
+        if(userToken != ''){
             router.push('/my-dashboard');
         }
     },[userToken]);
+
+    
+
+    // useEffect(() => {
+    //     // if(userToken){
+    //     //     router.push('/my-dashboard');
+    //     // }
+    // },[userToken]);
 
     const registerUser = (event) => {
         event.preventDefault();
@@ -24,7 +37,8 @@ export default function page() {
             if(result.data.status){
                 event.target.reset();
                 toast.success(result.data.message);
-                localStorage.setItem('userToken', result.data.token);
+                // localStorage.setItem('userToken', result.data.token);
+                dispatch(userDetails({user:result.data.data.name,token:result.data.token}))
                 router.push('/');
             } else {
                 toast.error(result.data.message);
@@ -62,7 +76,8 @@ export default function page() {
             if(result.data.status){
                 event.target.reset();
                 toast.success(result.data.message);
-                localStorage.setItem('userToken', result.data.token);
+                dispatch(userDetails({user:result.data.data.name,token:result.data.token}))
+                // localStorage.setItem('userToken', result.data.token);
                 router.push('/');
             } else {
                 toast.error(result.data.message);

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import { store } from './Redux Store/store';
 
-function MyApp({ Component, pageProps }) {
+function MyApp() {
   return (
     <Provider store={store}>
       <Component {...pageProps} />

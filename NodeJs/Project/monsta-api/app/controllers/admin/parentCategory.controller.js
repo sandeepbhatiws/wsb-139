@@ -76,6 +76,22 @@ exports.index = async (request, response) => {
         condition.name = nameRegex;
     }
 
+    if(request.body.page){
+        var page = request.body.page;
+    } else {
+        var page = 1;
+    }
+
+    if(request.body.limit){
+        var limit = request.body.limit;
+    } else {
+        var limit = 5;
+    }
+
+    var skip = (page-1) * limit;
+
+    var total_records = await parentCategoryModal.find(condition).countDocuments();
+
     await parentCategoryModal.find(condition)
         .select('name image status sub_category_id order')
         .populate({
@@ -87,11 +103,14 @@ exports.index = async (request, response) => {
                 _id: 'desc'
             }
         )
+        .limit(limit)
+        .skip(skip)
         .then((result) => {
             if (result.length > 0) {
                 const resp = {
                     status: true,
                     message: 'Record found successfully !!',
+                    total_pages : Math.ceil(total_records/limit),
                     base_url : `${request.protocol}://${request.get('host')}/uploads/categories/`,
                     data: result,
                 }

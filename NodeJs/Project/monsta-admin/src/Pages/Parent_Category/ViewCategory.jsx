@@ -6,6 +6,7 @@ import { CiEdit } from 'react-icons/ci';
 import { FaFilter } from 'react-icons/fa';
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { Pagination } from "flowbite-react";
 
 export default function ViewCategory() {
   // let [orderModal, setOrderModal] = useState(false);
@@ -17,25 +18,33 @@ export default function ViewCategory() {
   let [checkBoxValues, setCheckBoxValues] = useState([]);
   let [status, setStatus] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(10);
+
+  const onPageChange = (page) => setCurrentPage(page);
+
 
   useEffect(() => {
     axios.post('http://localhost:5000/api/admin/parent-categories/view', {
-      name: searchName
+      name: searchName,
+      page : currentPage,
     })
       .then((result) => {
         setImagePath(result.data.base_url);
         setCategoryData(result.data.data);
+        setTotalRecords(result.data.total_pages)
       })
       .catch((error) => {
         toast.error('Something went wrong !!');
       })
 
-  }, [searchName, status]);
+  }, [searchName, status, currentPage]);
 
   const search = (event) => {
     event.preventDefault();
     console.log(event.target.name.value);
     setSearchName(event.target.name.value);
+    setCurrentPage(1);
   }
 
   const checkBox = (id) => {
@@ -109,10 +118,11 @@ export default function ViewCategory() {
 
       <div className={` rounded-lg border border-gray-300 px-5 py-5 max-w-[1220px] mx-auto mt-10 ${activeFilter ? "hidden" : "block"}`}>
 
-        <form className="flex max-w-sm">
+        <form className="flex max-w-sm" onSubmit={ search }>
           <div className="relative w-full">
             <input
               type="text"
+              name='name'
               id="simple-search"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search Name"
@@ -275,7 +285,10 @@ export default function ViewCategory() {
 
           </div>
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalRecords} onPageChange={onPageChange} />
       </div>
+
+      
 
 
 

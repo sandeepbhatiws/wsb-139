@@ -11,6 +11,7 @@ import { RxCross2 } from "react-icons/rx";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Accordion from 'react-bootstrap/Accordion';
 import { FaAngleDown } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 export default function Header() {
     const [showCart, setShowCart] = useState(false);
@@ -23,8 +24,13 @@ export default function Header() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
+    // const [userToken, setuserToken] = useState(localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '');
 
+  let myName=  useSelector((state)=>state.login.user)
+  let userToken=  useSelector((state)=>state.login.token)
+
+  
+   
     return (
         <>
             {/* Desktop Header */}
