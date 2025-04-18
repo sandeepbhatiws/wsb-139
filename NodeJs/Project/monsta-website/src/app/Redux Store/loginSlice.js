@@ -16,8 +16,11 @@ export const loginSlice = createSlice({
       state.user= payload.user
       localStorage.setItem('user',state.user)
 
+
       state.token= payload.token
       localStorage.setItem('token',state.token)
+      // Cookies.set('token', token, { expires: 7 });
+    
     },
     logOut: (state) => {
 

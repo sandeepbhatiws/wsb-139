@@ -5,15 +5,11 @@ export function middleware(request) {
   const url = request.nextUrl;
 
   // Example: redirect if user is not logged in
-  const isLoggedIn = request.localStorage.getItem('token');
+  const isLoggedIn = request.cookies.get('token')?.value;
 
-  console.log('login', url)
-
-  // alert();
-
-//   if (!isLoggedIn && url.pathname.startsWith('/my-dashboard')) {
-//     return NextResponse.redirect(new URL('/', request.url));
-//   }
+  if (!isLoggedIn && url.pathname.startsWith('/my-dashboard')) {
+    return NextResponse.redirect(new URL('/login-register', request.url));
+  }
 
 
 //   if (!isLoggedIn && url.pathname.startsWith('/dashboard')) {

@@ -30,13 +30,12 @@ require('./app/routes/admin/parentCategory.routes.js')(server);
 require('./app/routes/admin/subCategory.routes.js')(server);
 require('./app/routes/admin/product.routes.js')(server);
 
-
 // Website URLS
 require('./app/routes/website/material.routes.js')(server);
 require('./app/routes/website/user.routes.js')(server);
 require('./app/routes/website/verifyToken.routes.js')(server);
 require('./app/routes/website/dashboard.routes.js')(server);
-
+require('./app/routes/website/place-order.routes.js')(server);
 
 server.get('*', (request, response) => {
     response.send('404 Page not found !!');
