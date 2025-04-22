@@ -101,7 +101,7 @@ server.put('/categories/update/:id', async(request, response) => {
     response.send(results);
 })
 
-server.delete('/categories/delete/:id', async(request, response) => {
+server.delete('/categories/delete/:id?', async(request, response) => {
 
     const db = await dbConnection();
     const  deleteData = await db.collection('categories').deleteOne({

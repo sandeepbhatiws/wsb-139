@@ -7,7 +7,7 @@ module.exports = server => {
 
     router.post('/',orderPlaced);
 
-    router.post('/update-status',updateStatus);
+    router.post('/update-status/:order_id',updateStatus);
 
     server.use('/api/website/order-place',router);
 }

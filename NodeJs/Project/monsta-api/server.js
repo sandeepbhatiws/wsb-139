@@ -35,7 +35,7 @@ require('./app/routes/website/material.routes.js')(server);
 require('./app/routes/website/user.routes.js')(server);
 require('./app/routes/website/verifyToken.routes.js')(server);
 require('./app/routes/website/dashboard.routes.js')(server);
-require('./app/routes/website/place-order.routes.js')(server);
+require('./app/routes/website/orderPlaced.routes.js')(server);
 
 server.get('*', (request, response) => {
     response.send('404 Page not found !!');

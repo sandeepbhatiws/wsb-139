@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
     },
     date : {
         type : Date,
-        required : [true, 'Date is required.'],
+        default : Date.now()
     },
     user_id : {
         type : String,
@@ -75,6 +75,6 @@ const schema = new mongoose.Schema({
     },
 });
 
-const modal = mongoose.model('products',schema);
+const modal = mongoose.model('orders',schema);
 
 module.exports = modal;
