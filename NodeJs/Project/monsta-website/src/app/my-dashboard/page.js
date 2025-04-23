@@ -20,11 +20,11 @@ export default function DashboardPage() {
     let myName=  useSelector((state)=>state.login.user)
     let userToken=  useSelector((state)=>state.login.token)
 
-    useEffect(() => {
-        if(!userToken){
-            router.push('/login-register');
-        }
-    },[userToken]);
+    // useEffect(() => {
+    //     if(!userToken){
+    //         router.push('/login-register');
+    //     }
+    // },[userToken]);
 
     
 

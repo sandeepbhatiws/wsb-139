@@ -5,8 +5,8 @@ var secretkey = '1234567890';
 const Razorpay = require('razorpay');
 
 var instance = new Razorpay({
-    key_id: 'rzp_test_bQlyV7ucVx6ogo',
-    key_secret: 'yvogXUWbQBb9Fc35v9SV4loV',
+    key_id: 'rzp_test_tFz6O0QKcTtRj6',
+    key_secret: 'xLD5lVVr0nEiXV1vY9i7PSFk',
 });
 
 // For Add Data
@@ -50,6 +50,7 @@ exports.orderPlaced = async (request, response) => {
         const resp = {
             status: true,
             message: 'Order Placed successfully !!',
+            order_payment_id : orderPayment.id,
             data: result,
         }
         response.send(resp);

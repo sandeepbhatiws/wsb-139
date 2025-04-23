@@ -1,38 +1,89 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import "../globals.css";
 import Link from 'next/link';
 import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
-
+import axios, { toFormData } from 'axios';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 
     export default function page() {
+
+        let userToken=  useSelector((state)=>state.login.token)
+        let [userInfo, setUserInfo] = useState('');
+
+        useEffect(() => {
+            if(userToken){
+                axios.post('http://localhost:5000/api/website/users/view-profile',{}, {
+                    headers : {
+                        'Authorization' : `Bearer ${userToken}`
+                    }
+                })
+                .then((result) => {
+                    if(result.data.status){
+                        // toast.success(result.data.message);
+                        setUserInfo(result.data.data);
+                    } else {
+                        toast.error(result.data.message);
+                    }
+                })
+                .catch((error) => {
+                    toast.error('Something went wrong !!');
+                })
+            }
+        },[]);
 
         const { error, isLoading, Razorpay } = useRazorpay();
 
         const placeOrder = (event) => {
             event.preventDefault();
 
-            handlePayment();
+            var orderDetails = {
+                total_amount : 600,
+                discount : 100,
+                net_amount : 450,
+                coupon_id : '',
+                product_info : [{id :  1,name : 'Tshirt',description : '',actual_price  : 500,sale_price : 400},{id :  2,name : 'Tshirt',description : '',actual_price  : 500,sale_price : 400}],
+                shipping_address : { name : 'Sandeep',    email : 'sandeep@gmail.com',    mobile_number : 1234567,    address : ''},
+                billing_address : { name : 'Sandeep',    email : 'sandeep@gmail.com',    mobile_number : 1234567,    address : ''}
+            }
+
+            axios.post('http://localhost:5000/api/website/order-place',orderDetails, {
+                headers : {
+                    'Authorization' : `Bearer ${userToken}`
+                }
+            })
+            .then((success) => {
+                if(success.data.status == true){
+                    handlePayment(success.data.order_payment_id, success.data.data.net_amount);
+                } else {
+                    toast.error('Something Went Wrong !!');
+                }
+            })
+            .catch((error) => {
+                toast.error('Something Went Wrong !!');
+            })            
         }
 
-        const handlePayment = () => {
+        const handlePayment = (order_payment_id,net_amount ) => {
             const options = {
-                key: "rzp_test_bQlyV7ucVx6ogo",
-                amount: 50000, // Amount in paise
+                key: "rzp_test_tFz6O0QKcTtRj6",
+                amount: net_amount * 100, // Amount in paise
                 currency: "INR",
-                name: "Test Company",
-                description: "Test Transaction",
-                order_id: "order_9A33XWu170gUtm", // Generate order_id on server
+                name: "WsCube Tech",
+                description: "WsCube Tech",
+                order_id: order_payment_id, // Generate order_id on server
                 handler: (response) => {
                     console.log(response);
-                    alert("Payment Successful!");
+                    toast.success('Payment Succesfullyy !!')
+                    orderStatus(2,2,response.razorpay_order_id, response.razorpay_payment_id)
                 },
                 prefill: {
-                    name: "John Doe",
-                    email: "john.doe@example.com",
-                    contact: "9999999999",
+                    name: userInfo.name,
+                    email: userInfo.email,
+                    contact: userInfo.mobile_number,
                 },
                 theme: {
                     color: "#F37254",
@@ -40,8 +91,44 @@ import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
             };
 
             const razorpayInstance = new Razorpay(options);
+
+            razorpayInstance.on("payment.failed", function (response) {
+                toast.success('Payment Failed !!')
+                console.log(response);
+                orderStatus(3,1,response.error.metadata.order_id, response.error.metadata.payment_id)
+                // alert(response.error.code);
+                // alert(response.error.description);
+                // alert(response.error.source);
+                // alert(response.error.step);
+                // alert(response.error.reason);
+                // alert(response.error.metadata.order_id);
+                // alert(response.error.metadata.payment_id);
+            });
+
             razorpayInstance.open();
         };
+
+        const orderStatus = (payment_status,order_status, order_number, transaction_id) => {
+            axios.post(`http://localhost:5000/api/website/order-place/update-status/${order_number}`,{
+                payment_status : payment_status,
+                order_status : order_status,
+                transaction_id : transaction_id
+            }, {
+                headers : {
+                    'Authorization' : `Bearer ${userToken}`
+                }
+            })
+            .then((success) => {
+                if(success.data.status == true){
+                    // toast.success(success.data.message)
+                } else {
+                    toast.error('Something Went Wrong !!');
+                }
+            })
+            .catch((error) => {
+                toast.error('Something Went Wrong !!');
+            })  
+        }
 
 
 

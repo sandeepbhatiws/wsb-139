@@ -12,9 +12,9 @@ export function middleware(request) {
   }
 
 
-//   if (!isLoggedIn && url.pathname.startsWith('/dashboard')) {
-//     return NextResponse.redirect(new URL('/login', request.url));
-//   }
+  if (isLoggedIn && url.pathname.startsWith('/login-register')) {
+    return NextResponse.redirect(new URL('/my-dashboard', request.url));
+  }
 
   // Continue request
   return NextResponse.next();

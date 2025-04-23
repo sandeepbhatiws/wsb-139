@@ -1,5 +1,6 @@
 "use client";
 import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 
 
@@ -19,7 +20,7 @@ export const loginSlice = createSlice({
 
       state.token= payload.token
       localStorage.setItem('token',state.token)
-      // Cookies.set('token', token, { expires: 7 });
+      Cookies.set("token", payload.token);
     
     },
     logOut: (state) => {
