@@ -11,6 +11,8 @@ import { Pagination } from "flowbite-react";
 export default function ViewCategory() {
   // let [orderModal, setOrderModal] = useState(false);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   let [activeFilter, setactiveFilter] = useState(true);
   let [categoryData, setCategoryData] = useState([]);
   let [searchName, setSearchName] = useState('');
@@ -25,7 +27,7 @@ export default function ViewCategory() {
 
 
   useEffect(() => {
-    axios.post('http://localhost:5000/api/admin/parent-categories/view', {
+    axios.post(`${ apiUrl }parent-categories/view`, {
       name: searchName,
       page : currentPage,
     })

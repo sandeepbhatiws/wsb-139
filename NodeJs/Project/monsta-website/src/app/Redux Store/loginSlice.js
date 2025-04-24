@@ -16,6 +16,7 @@ export const loginSlice = createSlice({
     userDetails: (state,{payload}) => {
       state.user= payload.user
       localStorage.setItem('user',state.user)
+      Cookies.set("user", payload.user);
 
 
       state.token= payload.token
@@ -28,9 +29,11 @@ export const loginSlice = createSlice({
       console.log('Logout User');
       state.user= ''
       localStorage.removeItem('user')
+      Cookies.remove('user');
 
       state.token= ''
       localStorage.removeItem('token')
+      Cookies.remove('token');
     },
    
   },

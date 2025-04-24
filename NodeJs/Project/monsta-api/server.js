@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
+require('dotenv').config();
+
+const { PORT, DB_URI } = process.env;
 
 const server = express();  // Executable Function
 
@@ -41,11 +44,12 @@ server.get('*', (request, response) => {
     response.send('404 Page not found !!');
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/ecommerce_new')
+mongoose.connect(DB_URI)
 .then(() => {
-    server.listen('5000');
+    server.listen(PORT);
     console.log('Connected!')
 })
-.catch(() => {
+.catch((error) => {
+    console.log(error);
     console.log('Not Connected!');
 });

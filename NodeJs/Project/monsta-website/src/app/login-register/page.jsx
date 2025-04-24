@@ -15,11 +15,11 @@ export default function page() {
     let myName=  useSelector((state)=>state.login.user)
     let userToken=  useSelector((state)=>state.login.token)
 
-    useEffect(() => {
-        if(userToken != ''){
-            router.push('/my-dashboard');
-        }
-    },[userToken]);
+    // useEffect(() => {
+    //     if(userToken != ''){
+    //         router.push('/my-dashboard');
+    //     }
+    // },[userToken]);
 
     
 

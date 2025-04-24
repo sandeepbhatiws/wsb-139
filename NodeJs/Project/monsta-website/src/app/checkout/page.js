@@ -11,12 +11,14 @@ import { useSelector } from 'react-redux';
 
     export default function page() {
 
+        const apiUrl = process.env.NEXT_PUBLIC_SECRET_API_URL;
+
         let userToken=  useSelector((state)=>state.login.token)
         let [userInfo, setUserInfo] = useState('');
 
         useEffect(() => {
             if(userToken){
-                axios.post('http://localhost:5000/api/website/users/view-profile',{}, {
+                axios.post(apiUrl+'/users/view-profile',{}, {
                     headers : {
                         'Authorization' : `Bearer ${userToken}`
                     }
@@ -50,7 +52,7 @@ import { useSelector } from 'react-redux';
                 billing_address : { name : 'Sandeep',    email : 'sandeep@gmail.com',    mobile_number : 1234567,    address : ''}
             }
 
-            axios.post('http://localhost:5000/api/website/order-place',orderDetails, {
+            axios.post(apiUrl+'/order-place',orderDetails, {
                 headers : {
                     'Authorization' : `Bearer ${userToken}`
                 }
@@ -109,7 +111,7 @@ import { useSelector } from 'react-redux';
         };
 
         const orderStatus = (payment_status,order_status, order_number, transaction_id) => {
-            axios.post(`http://localhost:5000/api/website/order-place/update-status/${order_number}`,{
+            axios.post(`${apiUrl}/order-place/update-status/${order_number}`,{
                 payment_status : payment_status,
                 order_status : order_status,
                 transaction_id : transaction_id
